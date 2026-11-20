@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tabhaven</title>
+  <link rel="icon" href="icons/32.png">
+  <link rel="stylesheet" href="shelf.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img src="icons/48.png" alt="" width="28" height="28"><span>Tabhaven</span></div>
+    <div class="search">
+      <input id="search" type="search" placeholder="Search titles and URLs  ( / )" autocomplete="off" aria-label="Search saved tabs">
+    </div>
+    <div id="stats" class="stats" aria-live="polite"></div>
+    <nav class="actions">
+      <button id="btn-import" type="button">Import</button>
+      <button id="btn-export" type="button">Export</button>
+      <button id="btn-history" type="button">History</button>
+      <button id="btn-settings" type="button">Settings</button>
+    </nav>
+  </header>
+
+  <div id="backup-status" class="backup-status"></div>
+
+  <main id="groups" aria-label="Saved tab groups"></main>
+
+  <section id="empty" class="empty" hidden>
+    <h1>Your shelf is empty</h1>
+    <p>Click the Tabhaven button in the toolbar, or press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>, to save every tab in this window here.</p>
+    <div class="empty-cards">
+      <div class="card">
+        <h2>Coming from another tab saver?</h2>
+        <p>Export your list there and paste it here. Tabhaven reads "URL | title" lists, JSON exports from most tab managers, bookmark files and plain URL lists.</p>
+        <button type="button" class="primary" data-open="import">Import tabs</button>
+      </div>
+      <div class="card">
+        <h2>Reinstalled Tabhaven?</h2>
+        <p>Your backups are still in your Downloads folder. Import <code>Downloads/Tabhaven/tabhaven-backup-latest.json</code> to get everything back.</p>
+        <button type="button" data-open="import">Restore from a backup file</button>
+      </div>
+    </div>
+  </section>
+
+  <dialog id="dlg-import">
+    <form method="dialog" class="dlg">
+      <h2>Import tabs</h2>
+      <p class="hint">Paste a list or choose a file: a Tabhaven backup (.json or .html), a "URL | title" text export, a JSON export from another tab manager, a bookmarks .html file or plain URLs (one per line, blank line between groups).</p>
+      <textarea id="import-text" rows="10" placeholder="https://example.com | Example page"></textarea>
+      <div class="row">
+        <label class="file">Choose file… <input id="import-file" type="file" accept=".json,.txt,.html,.htm,.md,.csv,text/*,application/json"></label>
+        <span id="import-preview" class="hint"></span>
+      </div>
+      <div class="row end">
+        <button value="cancel" type="submit">Cancel</button>
+        <button id="import-go" class="primary" type="button" disabled>Import</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-export">
+    <form method="dialog" class="dlg">
+      <h2>Export</h2>
+      <p class="hint">Download everything on your shelf. JSON and HTML files can be imported back into Tabhaven.</p>
+      <div class="grid2">
+        <button type="button" data-export="json">Tabhaven JSON</button>
+        <button type="button" data-export="html">Web page (HTML)</button>
+        <button type="button" data-export="text">"URL | title" text</button>
+        <button type="button" data-export="md">Markdown</button>
+      </div>
+      <button type="button" id="copy-text">Copy all as text</button>
+      <div class="row end"><button value="cancel" type="submit">Close</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-history">
+    <form method="dialog" class="dlg">
+      <h2>Version history</h2>
+      <p class="hint">Tabhaven saves a copy of your shelf before every delete, restore, import or edit (the last 30 copies). Restoring a version is itself undoable.</p>
+      <ol id="history-list" class="history"></ol>
+      <div class="row end"><button value="cancel" type="submit">Close</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-settings">
+    <form method="dialog" class="dlg">
+      <h2>Settings</h2>
+      <label class="check"><input type="checkbox" name="backups"> Write backup files to <code>Downloads/Tabhaven/</code> after every change</label>
+      <label class="check"><input type="checkbox" name="dailyBackups"> Also keep 7 daily copies (<code>Downloads/Tabhaven/daily/</code>)</label>
+      <label class="check"><input type="checkbox" name="removeOnRestore"> Take tabs off the shelf when I restore them (locked groups always stay)</label>
+      <label class="check"><input type="checkbox" name="keepPinned"> Leave pinned tabs open when saving a window</label>
+      <label class="check"><input type="checkbox" name="skipDuplicates"> Don't save a tab twice (close it if its URL is already on the shelf)</label>
+      <div class="row">
+        <button type="button" id="backup-now">Back up now</button>
+        <button type="button" id="open-folder">Show backups folder</button>
+      </div>
+      <p class="hint">Keyboard shortcuts can be changed at <code>chrome://extensions/shortcuts</code>.</p>
+      <div class="row end"><button value="cancel" type="submit" class="primary">Done</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script type="module" src="shelf.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy policy | Tabhaven</title>
+  <meta name="description" content="Tabhaven collects no data and transmits nothing. Your saved tabs stay in local extension storage and in backup files on your own computer. Permissions explained.">
+  <link rel="canonical" href="https://janwan2003.github.io/tab-shelf/privacy.html">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1312" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tabhaven">
+  <meta property="og:title" content="Tabhaven privacy policy">
+  <meta property="og:description" content="No data collected or transmitted. Everything stays on your computer.">
+  <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/privacy.html">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tabhaven home">
+        <img src="favicon.svg" alt="" width="30" height="30">
+        <span>Tabhaven</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html" aria-current="page">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+          <li><a class="nav-cta" href="index.html#install">Install</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div class="narrow">
+        <span class="eyebrow">Privacy policy</span>
+        <h1>Tabhaven collects nothing</h1>
+        <p class="lede">No data is collected, and nothing is transmitted. Your tabs stay on your computer.</p>
+        <p class="meta-line">Last updated: 20 November 2026</p>
+      </div>
+    </div>
+
+    <article class="prose">
+      <div class="narrow">
+        <h2 id="summary">Summary</h2>
+        <ul class="checklist">
+          <li>No account, no sign-up.</li>
+          <li>No server. Tabhaven has nowhere to send your data, and it makes no network requests.</li>
+          <li>No analytics, tracking, crash reporting or advertising.</li>
+          <li>Open source under the MIT license, so anyone can check these statements against the <a href="https://github.com/janwan2003/tab-shelf">source code</a>.</li>
+        </ul>
+
+        <h2 id="stored">What Tabhaven stores, and where</h2>
+        <p>To do its job, Tabhaven stores the titles and URLs of the tabs you save, your group names and settings (such as starred and locked groups), and snapshots for the version history. All of it is kept in two places, both on your computer:</p>
+        <ol>
+          <li><strong>The extension's local storage</strong> inside your Chrome profile (IndexedDB and extension storage). Only Tabhaven can read it. Removing the extension deletes it.</li>
+          <li><strong>Backup files in <code>Downloads/Tabhaven/</code></strong>: a JSON file, an HTML page of links, and 7 daily rotating copies. These are ordinary files that you control. You can open, move or delete them at any time.</li>
+        </ol>
+        <p>If your Downloads folder is synced by a service such as Dropbox or OneDrive, the backup files will be synced by that service under its own terms. That's your choice; Tabhaven itself never uploads anything.</p>
+
+        <h2 id="shared">What is shared</h2>
+        <p>Nothing. Tabhaven does not collect, transmit, sell or share any data with anyone, including the people who make it.</p>
+
+        <h2 id="permissions">Permissions and why they're needed</h2>
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Chrome permissions requested by Tabhaven and their purpose</caption>
+            <thead>
+              <tr><th scope="col">Permission</th><th scope="col">Why</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>tabs</code></td><td>Read the titles and URLs of the tabs you save, close them after saving, and reopen them when you restore.</td></tr>
+              <tr><td><code>storage</code></td><td>Keep settings in the extension's local storage.</td></tr>
+              <tr><td><code>unlimitedStorage</code></td><td>Let a large shelf grow past the browser's default storage quota.</td></tr>
+              <tr><td><code>downloads</code></td><td>Write backup files to <code>Downloads/Tabhaven/</code>.</td></tr>
+              <tr><td><code>downloads.ui</code></td><td>Write those backups quietly, without a download notification after every change.</td></tr>
+              <tr><td><code>alarms</code></td><td>Run the daily backup schedule.</td></tr>
+              <tr><td><code>contextMenus</code></td><td>Add Tabhaven options to the right-click menu.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="delete">Deleting your data</h2>
+        <p>Delete groups or tabs on the shelf page, or remove the extension to delete everything in its local storage. To remove the backups as well, delete the <code>Downloads/Tabhaven/</code> folder.</p>
+
+        <h2 id="website">This website</h2>
+        <p>This site is a set of static pages hosted on GitHub Pages. It uses no cookies, analytics, third-party scripts or external fonts. GitHub, as the host, may log technical data such as IP addresses to operate the service; see GitHub's privacy statement for details.</p>
+
+        <h2 id="changes">Changes and questions</h2>
+        <p>Any change to this policy will be published on this page and in the project's <a href="https://github.com/janwan2003/tab-shelf">GitHub repository</a>, where you can also ask questions by opening an issue.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand" href="index.html">
+          <img src="favicon.svg" alt="" width="24" height="24">
+          <span>Tabhaven</span>
+        </a>
+        <p>Tabhaven — an open-source tab saver.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

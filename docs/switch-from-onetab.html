@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Switch from OneTab to Tabhaven in 10 seconds: import your tabs with backups</title>
+  <meta name="description" content="How to export your saved tabs from OneTab and import them into Tabhaven, a free open-source Chrome extension with automatic backup files and version history.">
+  <link rel="canonical" href="https://janwan2003.github.io/tab-shelf/switch-from-onetab.html">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1312" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Tabhaven">
+  <meta property="og:title" content="Switch from OneTab to Tabhaven in 10 seconds">
+  <meta property="og:description" content="Export your OneTab list, paste it into Tabhaven's Import box, and get automatic backup files and version history.">
+  <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/switch-from-onetab.html">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tabhaven home">
+        <img src="favicon.svg" alt="" width="30" height="30">
+        <span>Tabhaven</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="switch-from-onetab.html" aria-current="page">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+          <li><a class="nav-cta" href="index.html#install">Install</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div class="narrow">
+        <span class="eyebrow">Guide</span>
+        <h1>Switch from OneTab to Tabhaven in 10 seconds: import your tabs with backups</h1>
+        <p class="lede">OneTab can export your saved tabs as plain text. Tabhaven reads that text directly. Copy, paste, done, and from then on every change is backed up to files you can see.</p>
+      </div>
+    </div>
+
+    <article class="prose">
+      <div class="narrow">
+        <div class="callout callout-warn">
+          <p><strong>Before you start:</strong> keep OneTab installed until you've checked that everything arrived in Tabhaven. Uninstalling a browser extension deletes the data it stored.</p>
+        </div>
+
+        <h2 id="export">Step by step</h2>
+        <ol class="steps">
+          <li>
+            <h3>Export from OneTab</h3>
+            <p>Open the OneTab page and use its <strong>Export URLs</strong> option. OneTab shows all your saved tabs as text, one per line, in the form <code>URL | title</code>, for example:</p>
+            <pre><code>https://example.com/article | An article I meant to read
+https://example.org/docs | Project documentation</code></pre>
+          </li>
+          <li>
+            <h3>Copy the text</h3>
+            <p>Click in the text box, select everything with <kbd>Ctrl</kbd>+<kbd>A</kbd> (<kbd>Cmd</kbd>+<kbd>A</kbd> on a Mac) and copy it. If you prefer, save it as a <code>.txt</code> file instead. That also gives you a spare copy.</p>
+          </li>
+          <li>
+            <h3>Paste into Tabhaven's Import box</h3>
+            <p>Open Tabhaven's shelf page, open the <strong>Import</strong> box, and paste the text (or upload the <code>.txt</code> file). Your tabs appear on the shelf.</p>
+          </li>
+          <li>
+            <h3>Check, then relax</h3>
+            <p>Search for a few tabs you know you had. Tabhaven writes its backup files to <code>Downloads/Tabhaven/</code> straight away, so your imported list already has a copy outside the browser.</p>
+          </li>
+        </ol>
+        <p>Don't have Tabhaven yet? <a href="index.html#install">Install it in four steps</a>. It is free and open source.</p>
+
+        <h2 id="gain">What you gain</h2>
+        <ul class="checklist">
+          <li><strong>Automatic backup files.</strong> A JSON file and a readable HTML page of links in <code>Downloads/Tabhaven/</code>, refreshed after every change, plus 7 daily rotating copies. They survive reinstalls, extension ID changes and browser resets, and Tabhaven can import them back.</li>
+          <li><strong>Version history.</strong> Every delete, restore, import or edit takes a snapshot first, so you can undo it or roll the whole shelf back to an earlier point.</li>
+          <li><strong>Saves that are confirmed before tabs close.</strong> Each save is a durable IndexedDB transaction (the browser's built-in database). Tabs are closed only after the write has been committed and read back. If anything fails, your tabs stay open.</li>
+          <li><strong>Search over title and URL</strong> that stays responsive with 10,000+ saved tabs.</li>
+          <li><strong>Exports in four formats:</strong> JSON, <code>URL | title</code> text, HTML or Markdown.</li>
+        </ul>
+
+        <h2 id="same">What stays familiar</h2>
+        <p>One click on the toolbar button saves every tab in the window into a named group and closes the tabs to free memory. Restore one tab, a whole group, or a group into a new window with one click. Groups can be renamed, starred to stay at the top, or locked so that restoring them doesn't remove their tabs.</p>
+
+        <h2 id="faq">FAQ</h2>
+        <div class="faq">
+          <details>
+            <summary>I lost my saved tabs. Can I get them back?</summary>
+            <div>
+              <p>Often, at least partly. In general:</p>
+              <ul>
+                <li><strong>Look for an existing export or backup file.</strong> Search your Downloads and Documents folders for <code>.txt</code>, <code>.json</code> or <code>.html</code> files from an earlier export.</li>
+                <li><strong>Check your browser history.</strong> Press <kbd>Ctrl</kbd>+<kbd>H</kbd> in Chrome (<kbd>Cmd</kbd>+<kbd>Y</kbd> on a Mac). Pages you opened recently are listed there, and the History menu has a <strong>Recently closed</strong> list.</li>
+                <li><strong>Don't uninstall the extension</strong> while you're trying. Uninstalling deletes its storage.</li>
+                <li><strong>From now on, keep automatic backups</strong>, so the next problem costs you nothing.</li>
+              </ul>
+              <p>The full guide: <a href="recover-lost-saved-tabs.html">Lost your saved tabs? How to recover them</a>.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Does importing change anything in OneTab?</summary>
+            <div>
+              <p>No. Tabhaven only reads the text you paste or the file you upload. It doesn't access OneTab or its data.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I import from other tab managers too?</summary>
+            <div>
+              <p>Yes. Tabhaven reads JSON exports from Session Buddy, Tab Session Manager, Toby and most other tab managers (it finds the URLs in any JSON file), as well as a plain list of URLs.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I go back to OneTab later?</summary>
+            <div>
+              <p>Tabhaven can export your shelf as <code>URL | title</code> text, the same line format OneTab's export uses. It can also export JSON, HTML and Markdown.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Is Tabhaven free?</summary>
+            <div>
+              <p>Yes. It's open source under the MIT license, with no account, no server and no analytics. See the <a href="privacy.html">privacy policy</a>.</p>
+            </div>
+          </details>
+        </div>
+
+        <h2 id="affiliation">Not affiliated with OneTab</h2>
+        <p>Tabhaven is an independent open-source project. It is not affiliated with, endorsed by or connected to OneTab or its developers. OneTab is named on this page only to explain how to move data from its export format.</p>
+
+        <div class="cta-panel">
+          <h2>Ready to switch?</h2>
+          <p>Install Tabhaven, paste your OneTab export, and your tabs are backed up from the first minute.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="index.html#install">Install Tabhaven</a>
+            <a class="btn btn-secondary" href="https://github.com/janwan2003/tab-shelf">View the source on GitHub</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand" href="index.html">
+          <img src="favicon.svg" alt="" width="24" height="24">
+          <span>Tabhaven</span>
+        </a>
+        <p>Tabhaven — an open-source tab saver.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

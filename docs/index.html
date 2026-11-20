@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tabhaven: save your tabs and never lose them again</title>
+  <meta name="description" content="Tabhaven is a free, open-source Chrome extension that saves every tab in your window to a searchable shelf, with automatic backup files and version history so your saved tabs survive crashes, updates and reinstalls.">
+  <link rel="canonical" href="https://janwan2003.github.io/tab-shelf/">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1312" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Tabhaven">
+  <meta property="og:title" content="Tabhaven: save your tabs and never lose them again">
+  <meta property="og:description" content="One click saves every tab to a searchable shelf. Durable saves, automatic backup files and version history. Free, open source, no account, no network requests.">
+  <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tabhaven home">
+        <img src="favicon.svg" alt="" width="30" height="30">
+        <span>Tabhaven</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+          <li><a class="nav-cta" href="#install">Install</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <span class="badge">Free and open source &middot; Chrome</span>
+          <h1 id="hero-title">Save your tabs. Never lose them again.</h1>
+          <p class="lede">One click moves every tab in your window to a searchable shelf and frees the memory. Every save is committed and checked before a single tab closes, and backup files you can open yourself land in your Downloads folder.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#install">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+              Install Tabhaven
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/janwan2003/tab-shelf">View the source on GitHub</a>
+          </div>
+          <p class="meta-line">Chrome (Manifest V3) &middot; MIT license &middot; No account &middot; Chrome Web Store listing pending</p>
+        </div>
+
+        <div>
+          <svg class="illustration" viewBox="0 0 520 400" role="img" aria-labelledby="ill-title ill-desc">
+            <title id="ill-title">Tabs moving from a browser window onto the Tabhaven shelf</title>
+            <desc id="ill-desc">A browser window with five open tabs. An arrow carries them into a saved group called Research, listing five tabs with a Restore button. Below, two backup files sit in the Downloads/Tabhaven folder.</desc>
+            <defs>
+              <clipPath id="win-clip">
+                <rect x="10" y="20" width="330" height="220" rx="16"/>
+              </clipPath>
+              <marker id="arrowhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path class="ill-arrowhead" d="M0 0 10 5 0 10z"/>
+              </marker>
+            </defs>
+
+            <!-- Browser window -->
+            <rect class="ill-window" x="10" y="20" width="330" height="220" rx="16"/>
+            <g clip-path="url(#win-clip)">
+              <rect class="ill-chrome" x="10" y="20" width="330" height="52"/>
+              <circle class="c4" cx="30" cy="35" r="4"/>
+              <circle class="c2" cx="44" cy="35" r="4"/>
+              <circle class="c1" cx="58" cy="35" r="4"/>
+              <g class="ill-tabs">
+                <rect class="ill-tab" x="22" y="46" width="56" height="26" rx="7"/>
+                <circle class="c1" cx="33" cy="59" r="4"/>
+                <rect class="ill-line" x="41" y="57" width="28" height="4" rx="2"/>
+                <rect class="ill-tab" x="81" y="46" width="56" height="26" rx="7"/>
+                <circle class="c2" cx="92" cy="59" r="4"/>
+                <rect class="ill-line" x="100" y="57" width="28" height="4" rx="2"/>
+                <rect class="ill-tab" x="140" y="46" width="56" height="26" rx="7"/>
+                <circle class="c3" cx="151" cy="59" r="4"/>
+                <rect class="ill-line" x="159" y="57" width="28" height="4" rx="2"/>
+                <rect class="ill-tab" x="199" y="46" width="56" height="26" rx="7"/>
+                <circle class="c4" cx="210" cy="59" r="4"/>
+                <rect class="ill-line" x="218" y="57" width="28" height="4" rx="2"/>
+                <rect class="ill-tab" x="258" y="46" width="56" height="26" rx="7"/>
+                <circle class="c5" cx="269" cy="59" r="4"/>
+                <rect class="ill-line" x="277" y="57" width="28" height="4" rx="2"/>
+              </g>
+              <rect class="ill-field" x="22" y="82" width="306" height="18" rx="9"/>
+              <rect class="ill-line-strong" x="26" y="118" width="170" height="10" rx="5"/>
+              <rect class="ill-line" x="26" y="140" width="290" height="6" rx="3"/>
+              <rect class="ill-line" x="26" y="154" width="268" height="6" rx="3"/>
+              <rect class="ill-line" x="26" y="168" width="282" height="6" rx="3"/>
+              <rect class="ill-line" x="26" y="182" width="200" height="6" rx="3"/>
+              <rect class="ill-line" x="26" y="200" width="120" height="28" rx="6"/>
+            </g>
+
+            <!-- Arrow from tab strip to shelf -->
+            <path class="ill-arrow" d="M318 52 C 420 40, 478 86, 462 158" marker-end="url(#arrowhead)"/>
+
+            <!-- Backup files -->
+            <path class="ill-doc-back" d="M64 268h34l16 16v52H64z"/>
+            <path class="ill-doc" d="M40 282h36l16 16v54H40z"/>
+            <path class="ill-doc" d="M76 282v16h16"/>
+            <text class="ill-doc-text" x="66" y="331" text-anchor="middle">JSON</text>
+            <circle class="ill-check-bg" cx="92" cy="350" r="11"/>
+            <path class="ill-check" d="m86.5 350 3.8 3.8 6.8-7.3"/>
+            <text class="ill-label" x="16" y="385">Downloads/Tabhaven/</text>
+
+            <!-- Shelf card -->
+            <rect class="ill-card" x="180" y="170" width="330" height="215" rx="16"/>
+            <polygon class="ill-star" points="202,192 204,197.25 209.61,197.53 205.23,201.05 206.7,206.47 202,203.4 197.3,206.47 198.77,201.05 194.39,197.53 200,197.25"/>
+            <text class="ill-title" x="218" y="204">Research</text>
+            <text class="ill-meta" x="218" y="222">5 tabs &middot; backed up</text>
+            <rect class="ill-btn" x="420" y="190" width="74" height="26" rx="13"/>
+            <text class="ill-btn-text" x="457" y="207" text-anchor="middle">Restore</text>
+            <line class="ill-divider" x1="180" y1="236" x2="510" y2="236"/>
+            <g>
+              <g class="ill-row">
+                <circle class="c1" cx="204" cy="256" r="5"/>
+                <rect class="ill-line-strong" x="218" y="250" width="180" height="6" rx="3"/>
+                <rect class="ill-line" x="218" y="259" width="120" height="4" rx="2"/>
+              </g>
+              <g class="ill-row">
+                <circle class="c2" cx="204" cy="282" r="5"/>
+                <rect class="ill-line-strong" x="218" y="276" width="150" height="6" rx="3"/>
+                <rect class="ill-line" x="218" y="285" width="100" height="4" rx="2"/>
+              </g>
+              <g class="ill-row">
+                <circle class="c3" cx="204" cy="308" r="5"/>
+                <rect class="ill-line-strong" x="218" y="302" width="204" height="6" rx="3"/>
+                <rect class="ill-line" x="218" y="311" width="140" height="4" rx="2"/>
+              </g>
+              <g class="ill-row">
+                <circle class="c4" cx="204" cy="334" r="5"/>
+                <rect class="ill-line-strong" x="218" y="328" width="132" height="6" rx="3"/>
+                <rect class="ill-line" x="218" y="337" width="92" height="4" rx="2"/>
+              </g>
+              <g class="ill-row">
+                <circle class="c5" cx="204" cy="360" r="5"/>
+                <rect class="ill-line-strong" x="218" y="354" width="168" height="6" rx="3"/>
+                <rect class="ill-line" x="218" y="363" width="110" height="4" rx="2"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why -->
+    <section class="section" id="why" aria-labelledby="why-title">
+      <div class="container split">
+        <div>
+          <span class="eyebrow">The problem</span>
+          <h2 id="why-title">Saved tabs are easy to lose</h2>
+          <p>Tab-saver extensions are where many people keep months or years of reading lists, research and half-finished work. Many keep that list in only one place: the extension's own storage inside the browser profile.</p>
+          <p>When that storage is damaged or wiped, there is often no second copy. Store reviews for tab savers regularly include reports from people who opened the extension after a crash or an update and found an empty list.</p>
+          <p>Tabhaven was built around one rule: <strong>your tabs are never closed until they are safely written, and there is always a copy outside the browser.</strong></p>
+        </div>
+        <ul class="lost-list" aria-label="Common ways saved tabs get lost">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            <span><strong>A crash in the middle of a save</strong> leaves the list half-written, and the tabs are already closed.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            <span><strong>An extension or browser update</strong> fails to migrate the stored data.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            <span><strong>Reinstalling the extension or resetting the browser</strong> deletes its storage for good.</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+            <span><strong>One wrong click</strong> removes a group, with no undo.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Protection -->
+    <section class="section section-alt" id="protection" aria-labelledby="protection-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">How Tabhaven protects your tabs</span>
+          <h2 id="protection-title">Four layers, so one failure never costs you your tabs</h2>
+          <p>Each layer covers a different way things go wrong: a failed write, a wiped browser, a mistake, and code changes that would break any of the above.</p>
+        </div>
+        <div class="grid grid-2">
+          <article class="card">
+            <h3><span class="num" aria-hidden="true">1</span> Tabs close only after the save is confirmed</h3>
+            <p>Every save is a durable IndexedDB transaction (IndexedDB is the database built into the browser). Tabhaven waits for the write to be committed, reads it back, and only then closes your tabs. If anything fails, your tabs stay open.</p>
+          </article>
+          <article class="card">
+            <h3><span class="num" aria-hidden="true">2</span> Backup files outside the browser</h3>
+            <p>Tabhaven writes backups to <code>Downloads/Tabhaven/</code>: a JSON file and a readable HTML page of links, refreshed after every change, plus 7 daily rotating copies. They survive reinstalls, extension ID changes and browser resets, and Tabhaven can import them back.</p>
+          </article>
+          <article class="card">
+            <h3><span class="num" aria-hidden="true">3</span> Version history with undo</h3>
+            <p>Before every delete, restore, import or edit, Tabhaven takes a snapshot. Undo the last change, or roll the whole shelf back to an earlier point.</p>
+          </article>
+          <article class="card">
+            <h3><span class="num" aria-hidden="true">4</span> Crash-tested on every commit</h3>
+            <p>An automated test suite runs on every code change. It kills the browser in the middle of a 5,000-tab write, reloads the extension, restores from the backup files, and checks that nothing was lost.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Switching -->
+    <section class="section" id="switch" aria-labelledby="switch-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Switching</span>
+          <h2 id="switch-title">Bring your tabs over in 10 seconds</h2>
+          <p>Export from the tool you use now, then paste or upload the export into Tabhaven's Import box.</p>
+        </div>
+        <ol class="steps steps-3">
+          <li>
+            <h3>Export from your current tool</h3>
+            <p>Most tab managers have an export or backup option that gives you text or a JSON file.</p>
+          </li>
+          <li>
+            <h3>Open Tabhaven's Import box</h3>
+            <p>It's on the shelf page. Paste the text, or upload the file.</p>
+          </li>
+          <li>
+            <h3>Import</h3>
+            <p>Your tabs appear on the shelf, and the first backup file is written straight away.</p>
+          </li>
+        </ol>
+        <p><strong>Tabhaven reads:</strong></p>
+        <ul class="chips">
+          <li>OneTab (<code>URL | title</code> text)</li>
+          <li>Session Buddy JSON</li>
+          <li>Tab Session Manager JSON</li>
+          <li>Toby JSON</li>
+          <li>Any JSON file that contains URLs</li>
+          <li>A plain list of URLs</li>
+          <li>Tabhaven's own backup files</li>
+        </ul>
+        <p>Coming from OneTab? See the <a href="switch-from-onetab.html">step-by-step OneTab guide</a>.</p>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section section-alt" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Features</span>
+          <h2 id="features-title">Everything a tab saver should do</h2>
+        </div>
+        <div class="grid grid-3">
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 13h8"/><path d="M8 16h5"/></svg></span> Save a window in one click</h3>
+            <p>Click the toolbar button. Every tab in the window goes into a named group on your shelf, and the tabs close to free memory.</p>
+          </article>
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg></span> Restore your way</h3>
+            <p>Open a single tab, a whole group, or a group in a new window. One click each.</p>
+          </article>
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span> Search that keeps up</h3>
+            <p>Search titles and URLs across every group. It stays responsive with 10,000+ saved tabs.</p>
+          </article>
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg></span> Organise groups</h3>
+            <p>Rename groups. Star a group to keep it at the top. Lock a group so restoring it doesn't remove its tabs. Remove single tabs you no longer need.</p>
+          </article>
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> Export in four formats</h3>
+            <p>JSON, <code>URL | title</code> text, HTML or Markdown. Your list is never locked in.</p>
+          </article>
+          <article class="card">
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg></span> Import from other tools</h3>
+            <p>OneTab text, JSON from Session Buddy, Tab Session Manager, Toby and most other tab managers, or a plain list of URLs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="section" id="privacy" aria-labelledby="privacy-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Privacy</span>
+          <h2 id="privacy-title">Your tabs stay on your computer</h2>
+          <p>Tabhaven has no server to send anything to. Your shelf lives in the extension's local storage and in backup files in your own Downloads folder.</p>
+        </div>
+        <div class="privacy-band">
+          <div class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+            <strong>No account</strong>
+            <span>Nothing to sign up for.</span>
+          </div>
+          <div class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="m2 2 20 20"/></svg></span>
+            <strong>No server</strong>
+            <span>Data stays on your machine.</span>
+          </div>
+          <div class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="m2 2 20 20"/></svg></span>
+            <strong>No analytics</strong>
+            <span>No tracking of any kind.</span>
+          </div>
+          <div class="card">
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg></span>
+            <strong>No network requests</strong>
+            <span>It never goes online.</span>
+          </div>
+        </div>
+        <p class="after-band">The code is open source under the MIT license, so you can check all of this yourself on <a href="https://github.com/janwan2003/tab-shelf">GitHub</a>. Read the <a href="privacy.html">privacy policy</a>.</p>
+      </div>
+    </section>
+
+    <!-- Install -->
+    <section class="section section-alt" id="install" aria-labelledby="install-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Install</span>
+          <h2 id="install-title">Install Tabhaven in four steps</h2>
+          <p>Tabhaven is not on the Chrome Web Store yet; the listing is pending. Until it is approved, install it directly from the release file. It takes about a minute.</p>
+        </div>
+        <div class="install-box">
+          <div class="install-aside">
+            <div class="card">
+              <h3>Download</h3>
+              <p>The latest build of the extension, as a zip file.</p>
+              <p><a class="btn btn-primary" href="tabhaven.zip" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+                Download tabhaven.zip
+              </a></p>
+            </div>
+            <div class="card">
+              <h3>Get notified of new versions</h3>
+              <p>No email list. <a href="https://github.com/janwan2003/tab-shelf">Watch the GitHub repo for releases</a>: click <strong>Watch</strong>, then <strong>Custom</strong>, then tick <strong>Releases</strong>.</p>
+            </div>
+            <div class="card">
+              <h3>Firefox</h3>
+              <p>A Firefox version is planned.</p>
+            </div>
+          </div>
+          <div>
+            <ol class="steps">
+              <li>
+                <h3>Download and unzip</h3>
+                <p>Download <a href="tabhaven.zip" download>tabhaven.zip</a> and unzip it. Put the unzipped folder somewhere permanent, such as your Documents folder: Chrome loads the extension from that folder, so keep it.</p>
+              </li>
+              <li>
+                <h3>Open the extensions page</h3>
+                <p>Type <code>chrome://extensions</code> into Chrome's address bar and press <kbd>Enter</kbd>. (Browsers don't allow links to this page, so it has to be typed or pasted.)</p>
+              </li>
+              <li>
+                <h3>Turn on Developer mode</h3>
+                <p>Use the <strong>Developer mode</strong> switch in the top-right corner of the extensions page.</p>
+              </li>
+              <li>
+                <h3>Click &ldquo;Load unpacked&rdquo;</h3>
+                <p>Click <strong>Load unpacked</strong> and select the unzipped folder (the one that contains <code>manifest.json</code>). Tabhaven appears in your extensions list. Pin it from the puzzle-piece menu so its button is always in the toolbar.</p>
+              </li>
+            </ol>
+            <div class="callout">
+              <p><strong>Updating:</strong> download the new zip, replace the contents of the same folder, then click the reload icon on Tabhaven's card in <code>chrome://extensions</code>. If you move the folder instead, Chrome may treat it as a new extension with empty storage. Your backup files in <code>Downloads/Tabhaven/</code> are still there, and you can import the latest one.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="narrow">
+        <div class="section-head">
+          <span class="eyebrow">FAQ</span>
+          <h2 id="faq-title">Questions</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Where are my backups?</summary>
+            <div>
+              <p>In your Downloads folder, under <code>Downloads/Tabhaven/</code>. You'll find a JSON file (for importing back into Tabhaven) and an HTML page of links you can open in any browser. Both are refreshed after every change. There are also 7 daily rotating copies, so you can go back up to a week.</p>
+            </div>
+          </details>
+          <details>
+            <summary>What happens if I reinstall the extension or reset Chrome?</summary>
+            <div>
+              <p>Removing an extension deletes its storage inside Chrome, and a browser reset can too. The backup files in <code>Downloads/Tabhaven/</code> are ordinary files outside the browser, so they are not affected. After reinstalling, open the Import box on the shelf page and choose the latest JSON backup file. Tabhaven reads its own backup files.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Does it sync between computers?</summary>
+            <div>
+              <p>Not yet. Your shelf lives on this computer. If your Downloads folder is synced by a service like Dropbox or OneDrive, the backup files sync with it, and you can import them on another computer. Encrypted sync is planned.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Is it free?</summary>
+            <div>
+              <p>Yes. Tabhaven is free and open source under the MIT license, and there's no account to create.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Is there a Firefox version?</summary>
+            <div>
+              <p>It's planned. Tabhaven currently runs on Chrome (Manifest V3). <a href="https://github.com/janwan2003/tab-shelf">Watch the GitHub repo for releases</a> to hear when it's ready.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Why is it not on the Chrome Web Store?</summary>
+            <div>
+              <p>The listing is pending. Until it is published, install from <a href="tabhaven.zip" download>tabhaven.zip</a> using the <a href="#install">four steps above</a>.</p>
+            </div>
+          </details>
+          <details>
+            <summary>Which permissions does it need, and why?</summary>
+            <div>
+              <ul>
+                <li><code>tabs</code>: to read the titles and URLs of the tabs you save, close them, and reopen them when you restore.</li>
+                <li><code>storage</code>: to keep your settings in the extension's local storage.</li>
+                <li><code>unlimitedStorage</code>: so a large shelf isn't cut off by the browser's default storage quota.</li>
+                <li><code>downloads</code> and <code>downloads.ui</code>: to write backup files to <code>Downloads/Tabhaven/</code>, quietly, without a download notification after every change.</li>
+                <li><code>alarms</code>: to run the daily backup schedule.</li>
+                <li><code>contextMenus</code>: to add Tabhaven options to the right-click menu.</li>
+              </ul>
+              <p>None of these are used to send data anywhere. Tabhaven makes no network requests.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand" href="index.html">
+          <img src="favicon.svg" alt="" width="24" height="24">
+          <span>Tabhaven</span>
+        </a>
+        <p>Tabhaven — an open-source tab saver.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

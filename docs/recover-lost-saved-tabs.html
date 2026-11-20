@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lost your saved tabs? How to recover them, and how to never lose them again</title>
+  <meta name="description" content="Your tab saver extension came up empty after a crash or update? Step-by-step ways to recover lost saved tabs in Chrome: export files, history, Recently closed, and the extension's data in your profile folder.">
+  <link rel="canonical" href="https://janwan2003.github.io/tab-shelf/recover-lost-saved-tabs.html">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1312" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Tabhaven">
+  <meta property="og:title" content="Lost your saved tabs? How to recover them, and how to never lose them again">
+  <meta property="og:description" content="Practical steps to recover saved tabs after a tab saver extension loses them, and how automatic backup files prevent it next time.">
+  <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/recover-lost-saved-tabs.html">
+  <meta property="og:locale" content="en">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="Tabhaven home">
+        <img src="favicon.svg" alt="" width="30" height="30">
+        <span>Tabhaven</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html" aria-current="page">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+          <li><a class="nav-cta" href="index.html#install">Install</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div class="narrow">
+        <span class="eyebrow">Guide</span>
+        <h1>Lost your saved tabs? How to recover them, and how to never lose them again</h1>
+        <p class="lede">Your tab saver opened to an empty list after a crash, an update or a restart. Here is what to try, in order, with the steps that can make things worse marked clearly.</p>
+      </div>
+    </div>
+
+    <article class="prose">
+      <div class="narrow">
+        <nav class="toc" aria-labelledby="toc-title">
+          <h2 id="toc-title">On this page</h2>
+          <ol>
+            <li><a href="#stop">Stop: don't uninstall the extension</a></li>
+            <li><a href="#files">Look for export or backup files</a></li>
+            <li><a href="#history">Check Chrome history and Recently closed</a></li>
+            <li><a href="#copy">Copy your browser profile folder</a></li>
+            <li><a href="#profile">Look inside the extension's data folders</a></li>
+            <li><a href="#import">Put the recovered links somewhere safe</a></li>
+            <li><a href="#prevent">How to never lose them again</a></li>
+          </ol>
+        </nav>
+
+        <h2 id="stop">1. Stop: don't uninstall the extension</h2>
+        <div class="callout callout-warn">
+          <p><strong>Uninstalling an extension deletes its storage.</strong> If any of your tabs are still on disk, reinstalling to "fix" the extension removes them for good.</p>
+        </div>
+        <p>Until you have tried the steps below, also avoid:</p>
+        <ul>
+          <li>removing and re-adding the extension, or switching to a different one to "start fresh";</li>
+          <li>clearing browsing data (it can remove history you may need in step 3);</li>
+          <li>resetting Chrome's settings or deleting the browser profile.</li>
+        </ul>
+        <p>Disabling the extension is fine if it's misbehaving. Disabling keeps its data.</p>
+
+        <h2 id="files">2. Look for export or backup files</h2>
+        <p>The quickest recovery is a file you already have. Many tab savers can export a list, and you may have done it once and forgotten.</p>
+        <ul>
+          <li>Search your Downloads, Documents and Desktop folders for <code>.txt</code>, <code>.json</code>, <code>.html</code> or <code>.csv</code> files from around the time you exported. Searching file contents for <code>http</code> or for a site you know you saved can help.</li>
+          <li>Check the extension's own settings page for a backup, restore or "previous sessions" option.</li>
+          <li>Check cloud folders (Dropbox, OneDrive, Google Drive, iCloud) and email you sent to yourself.</li>
+          <li>If you use system backups (Windows File History, macOS Time Machine, or a Linux backup tool), they may hold an older copy of your browser profile. Restore it to a <em>separate</em> folder, not over your current profile, and continue from <a href="#profile">step 5</a>.</li>
+        </ul>
+
+        <h2 id="history">3. Check Chrome history and Recently closed</h2>
+        <p>A tab saver closes tabs after saving them, but the pages you visited are usually still in your browser history.</p>
+        <ul>
+          <li><strong>History:</strong> press <kbd>Ctrl</kbd>+<kbd>H</kbd> (<kbd>Cmd</kbd>+<kbd>Y</kbd> on a Mac), or type <code>chrome://history</code> in the address bar. Search by site name or keyword, and scroll back to the days you saved the tabs.</li>
+          <li><strong>Recently closed:</strong> open the Chrome menu (&#8942;) and go to <strong>History</strong>. The <strong>Recently closed</strong> list can reopen whole windows. <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> on a Mac) reopens the last closed tab or window.</li>
+          <li><strong>Tabs from other devices:</strong> if you use Chrome sync, the History page also lists tabs open on your other devices.</li>
+        </ul>
+        <p>History only contains pages you opened in this browser, and Chrome deletes old entries over time, so this works best for tabs saved recently.</p>
+
+        <h2 id="copy">4. Copy your browser profile folder first</h2>
+        <p>The extension's data may still be on disk even when it shows an empty list. Before you look for it, <strong>quit Chrome completely and copy the whole profile folder</strong> somewhere else, for example into a new folder called <code>tab-rescue</code> on your Desktop. Work only on the copy. Chrome keeps writing to the original, and that can overwrite what you are trying to recover.</p>
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Default Chrome profile folder by operating system</caption>
+            <thead>
+              <tr><th scope="col">System</th><th scope="col">Default Chrome profile folder</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Windows</td><td><code>%LOCALAPPDATA%\Google\Chrome\User Data\Default</code></td></tr>
+              <tr><td>macOS</td><td><code>~/Library/Application Support/Google/Chrome/Default</code></td></tr>
+              <tr><td>Linux</td><td><code>~/.config/google-chrome/Default</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>If you use more than one Chrome profile, yours may be called <code>Profile 1</code>, <code>Profile 2</code> and so on instead of <code>Default</code>. To be sure, open <code>chrome://version</code> and look at the <strong>Profile Path</strong> line.</p>
+
+        <h2 id="profile">5. Look inside the extension's data folders</h2>
+        <p>First find the extension's ID: open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, and read the ID (32 letters) on the extension's card. Then, in your <em>copy</em> of the profile folder, look in:</p>
+        <ul>
+          <li><code>Local Extension Settings/&lt;extension-id&gt;/</code>: the extension's local storage.</li>
+          <li><code>IndexedDB/</code>: look for a folder whose name starts with <code>chrome-extension_&lt;extension-id&gt;</code>. This is the extension's database, if it uses one.</li>
+        </ul>
+        <p>Both are LevelDB databases: folders of <code>.log</code> and <code>.ldb</code> files. They are not meant to be read by people, but URLs are often stored as plain text inside them, and deleted entries can stay in the files until the database tidies itself up later. That's another reason to work on a copy made early.</p>
+        <p>On macOS or Linux, this pulls every URL out of a copied folder into a text file:</p>
+        <pre><code>cd ~/Desktop/tab-rescue/Default/"Local Extension Settings"/&lt;extension-id&gt;
+strings -n 8 * | grep -Eo 'https?://[^ "&lt;&gt;\\]+' | sort -u &gt; ~/Desktop/recovered-urls.txt</code></pre>
+        <p>On Windows, open the <code>.log</code> files in a text editor and search for <code>http</code>, or run the same commands in WSL. Expect messy, partial results: some files are compressed, titles may be missing, and you'll see duplicates. It is still often enough to rebuild a list you thought was gone.</p>
+
+        <h2 id="import">6. Put the recovered links somewhere safe</h2>
+        <p>Whatever you recover, save it as a file before doing anything else. Tabhaven can import a plain list of URLs, <code>URL | title</code> text, and JSON files from most tab managers. Paste the list into its Import box and it becomes searchable groups on your shelf, with backup files written immediately.</p>
+
+        <h2 id="prevent">7. How to never lose them again</h2>
+        <p>Most tab losses have the same cause: the only copy of the list lives inside the browser. Tabhaven, a free open-source Chrome extension, is built so there is always another copy:</p>
+        <ul class="checklist">
+          <li><strong>Tabs close only after the save is confirmed.</strong> Every save is a durable IndexedDB transaction, and tabs close only after the write has been committed and read back. If anything fails, your tabs stay open.</li>
+          <li><strong>Automatic backup files.</strong> A JSON file and a readable HTML page of links go to <code>Downloads/Tabhaven/</code>, refreshed after every change, plus 7 daily rotating copies. They survive reinstalls, extension ID changes and browser resets, and Tabhaven can import them back.</li>
+          <li><strong>Version history.</strong> Every delete, restore, import or edit takes a snapshot first, so you can undo or roll the whole shelf back.</li>
+          <li><strong>Crash-tested on every commit.</strong> An automated test kills the browser in the middle of a 5,000-tab write, reloads the extension, restores from the backup files and checks that nothing was lost.</li>
+        </ul>
+        <p>With backup files in place, steps 4 and 5 above are never needed: open <code>Downloads/Tabhaven/</code>, and the HTML file lists every link, readable in any browser.</p>
+
+        <div class="cta-panel">
+          <h2>Keep a copy of your tabs from now on</h2>
+          <p>Tabhaven is free, has no account, and makes no network requests. Everything stays on your computer.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="index.html#install">Install Tabhaven</a>
+            <a class="btn btn-secondary" href="switch-from-onetab.html">Importing from OneTab?</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand" href="index.html">
+          <img src="favicon.svg" alt="" width="24" height="24">
+          <span>Tabhaven</span>
+        </a>
+        <p>Tabhaven — an open-source tab saver.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
+          <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
