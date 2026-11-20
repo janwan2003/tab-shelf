@@ -1,9 +1,9 @@
 ---
 slug: tab-shelf
-stage: idea
+stage: launched
 priority: 3
-url:
-repo:
+url: https://janwan2003.github.io/tab-shelf/
+repo: https://github.com/janwan2003/tab-shelf
 updated: 2026-11-20
 ---
 
@@ -38,6 +38,9 @@ Competitors (Chrome Web Store, queried live with curl on 2026-11-20):
 | [Toby](https://chromewebstore.google.com/detail/hddnkoipeenegfoeaoibdmnaalmgkpip) | 300,000 | 3.7 (3.4K) | 2026-11-13 |
 | [Tab Session Manager](https://chromewebstore.google.com/detail/iaiomicjabeggjcfkbimgmglanimpnae) | 100,000 | 3.5 (452) | 2026-07-18 |
 | [Tabs Outliner](https://chromewebstore.google.com/detail/eggkanocgddhmamlbiijnphhppkpkmkl) | 100,000 | 3.2 (3.3K) | 2026-07-23 |
+
+Builder sanity check 2026-11-20: re-curled the OneTab listing page, which still shows
+"3.8 out of 5" and "14.6K ratings" (the user count did not match a grep and was not re-checked).
 
 Together that is about 3.5M users on the five biggest tools, and **none of them is rated
 above 3.8**.
@@ -75,21 +78,64 @@ reliability shows up quickly in our reviews, which is why this is priority 3, no
 
 ## Status
 
-Idea only. Nothing built. Evidence above gathered by web search and live curl of 6
-Chrome Web Store listing and review pages on 2026-11-20.
+**Product name: Tabhaven** (repo slug stays `tab-shelf`). "Tab Shelf" itself is taken by
+at least two Chrome Web Store extensions (omoghdpmchndcolbngoncjahbbjgelno,
+gkiobnohamhihbaipacecjfljepjjlmg); "Tab Ledger", "TabKeeper", "Tab Anchor" and "Stashwell"
+are also in use. A web search for "Tabhaven" on 2026-11-20 found no product.
+
+What exists (v0.1.0, all in `src/`, plain ES modules, no build step):
+- MV3 extension: popup (save this window / all windows / this tab / open shelf),
+  right-click menus, shortcuts Alt+Shift+S (save window) and Alt+Shift+T (open shelf).
+- Storage (`db.js`): IndexedDB, every write is a `durability: 'strict'` transaction; a save
+  is read back before any tab closes. 30 version snapshots are kept, taken before deletes,
+  restores, imports and edits (minor edits at most one every 2 minutes).
+- Backups (`backup.js`): about 30 s after a change (alarm) plus an hourly check, writes
+  `Downloads/Tabhaven/tabhaven-backup-latest.json` + `.html` (a readable page that embeds
+  the JSON, so it re-imports) and `daily/tabhaven-backup-<weekday>.json`. It hides the
+  download bubble (`downloads.ui`) and erases the entries from the download list.
+- Shelf page: groups (rename, star, lock, delete, restore, restore in new window), undo
+  toast, search over titles and URLs, drag a tab between groups, "show more" past 300 tabs
+  per group, `content-visibility` for big lists, backup-status line, History dialog
+  (restore or download any version), Settings, Import (text, any JSON, bookmark HTML,
+  Tabhaven backups; skips groups already present by id), Export (JSON/HTML/text/MD).
+- Site in `docs/`: landing page, `switch-from-onetab.html`, `recover-lost-saved-tabs.html`,
+  `privacy.html`. CI publishes it to Pages along with `tabhaven.zip` (built from `src/`).
+
+Verified 2026-11-20 on janeks-pc, with Playwright 1.65.1 and Chromium build 1255 (headless):
+- `pnpm test`: 13/13 unit tests (formats round trips, generic JSON walker, a 5,000-line
+  parse in under 500 ms).
+- `pnpm test:e2e`: 5/5, with the real extension loaded:
+  1. Saving 5 tabs closes them only after the write; restore reopens them; undo works.
+  2. SIGKILL of the whole browser 0/15/40/120 ms into a second 5,000-tab write. The
+     first 5,000-tab group always survived, and the second write was either complete or
+     absent (observed: committed, rolled back, committed, committed), never partial.
+  3. Updating the extension (same id, version 0.1.0 → 99.0.0) keeps the shelf exactly.
+  4. Backup files written with real names into the Downloads dir (1,234 tabs). A fresh
+     profile ("reinstall") imports the HTML backup and gets an identical shelf.
+     Re-importing adds nothing.
+  5. 10,000 tabs: a search finishes in 251–288 ms including the 80 ms debounce. Deleting a
+     group and rolling back via History works.
+- CI (GitHub Actions run 44733699295, ubuntu-latest): unit 13/13, e2e 5/5. The kill test
+  there observed rolled back, committed, rolled back, committed; 10k search took 292 ms. The Pages
+  deploy succeeded; curl gives 200 for `/`, the 3 sub-pages and `tabhaven.zip` (31,594 B, 15 files).
+- Screenshots of the shelf, empty state, import dialog and popup checked by eye.
+
+Not covered yet: Firefox; Chrome tab groups (colour/name) are not saved; drag-and-drop
+and the right-click menus have no automated test; the store listing does not exist.
 
 ## Next steps
 
-1. Choose a name that does not reuse "OneTab"/"Tab" brand marks from the listings above,
-   and check for clashes.
-2. MV3 extension core: save window/all tabs → group; restore/restore-and-delete; IndexedDB
-   storage with a write-ahead journal; snapshots.
-3. Automatic backup via `chrome.downloads` to `Downloads/<name>-backup/` (rotating
-   files) and manual export/import (JSON, OneTab text format, plain URL list).
-4. Automated tests (Playwright with the extension loaded): save 5,000 tabs, kill the browser
-   mid-write, reload/update the extension, and assert nothing is lost.
-5. Landing page on GitHub Pages ("switch from OneTab in 10 seconds").
-6. Publishing needs a Chrome Web Store developer account; record it in OPERATOR-INBOX.md.
+1. Chrome Web Store: package `tabhaven.zip`, write the listing (screenshots from the shelf,
+   privacy policy at /privacy.html). Blocked on the developer account (OPERATOR-INBOX).
+2. Firefox port (MV3 with background scripts instead of a service worker, no
+   `downloads.setUiOptions`), so it can go on AMO (free account, also operator).
+3. Save and restore Chrome tab groups (name and colour) and window layout; option to
+   restore tabs unloaded (discarded) so restoring 200 tabs doesn't load 200 pages.
+4. E2E tests for drag between groups, context menus and the keyboard shortcut; a test
+   that the 30-second backup alarm actually fires (`chrome.alarms` with a shortened delay).
+5. More SEO pages: "Session Buddy alternative", "export OneTab tabs", "Toby alternative
+   without account"; add an og:image PNG.
+6. Optional: choose the backup folder name; "copy backups to a synced folder" guide.
 
 ## Monetization plan
 
@@ -103,3 +149,8 @@ fully local. Donations as a fallback.
   (OneTab, Session Buddy, Toby, Tab Session Manager, Tabs Outliner) and OneTab reviews;
   web search (AMO reviews, AlternativeTo, Workona, G2).
 - 2026-11-20 review: kept p3. Largest market and clearest paid feature (sync) of the three, but the biggest build and a crowded category. Re-curled CWS: OneTab still 3.8. No url/repo yet, nothing to load. Kill test: if the crash/update survival test (step 4) is not passing after 3 build sessions, lower to 1.
+- 2026-11-20 builder: sanity-checked the evidence (OneTab is still 3.8 with 14.6K ratings, by curl), named the product
+  Tabhaven after a clash search, and built v0.1.0: MV3 extension, strict-durability IndexedDB, backup files, history,
+  import/export, a shelf UI and a landing site with 3 sub-pages. Published the repo and Pages; stage → launched.
+  Evidence: local and CI run 44733699295 both green (13 unit, 5 e2e incl. SIGKILL mid 5,000-tab write, update,
+  backup→fresh-profile restore); live URLs return 200. Kill test (step 4 of the old plan) passes in session 1.
