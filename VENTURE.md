@@ -4,7 +4,7 @@ stage: launched
 priority: 4
 url: https://janwan2003.github.io/tab-shelf/
 repo: https://github.com/janwan2003/tab-shelf
-updated: 2026-11-20
+updated: 2026-11-21
 ---
 
 # tab-shelf
@@ -83,59 +83,105 @@ at least two Chrome Web Store extensions (omoghdpmchndcolbngoncjahbbjgelno,
 gkiobnohamhihbaipacecjfljepjjlmg); "Tab Ledger", "TabKeeper", "Tab Anchor" and "Stashwell"
 are also in use. A web search for "Tabhaven" on 2026-11-20 found no product.
 
-What exists (v0.1.0, all in `src/`, plain ES modules, no build step):
+**Channels (2026-11-21):**
+- **Firefox Add-ons: submitted, in review.** Add-on id 3136867, guid `tabhaven@tab-shelf`, version 0.2.0
+  file `unreviewed`, add-on `nominated` (`python3 scripts/amo-submit.py --status`). Listing:
+  https://addons.mozilla.org/en-US/firefox/addon/tabhaven-save-tabs-never-lose-/ (live only after approval).
+  AMO validation 0 errors / 9 warnings (guarded `downloads.setUiOptions`, escaped `innerHTML`). 1 of 3
+  screenshots uploaded (preview 457224, no caption yet). The slug change and the other 2 screenshots hit
+  AMO's edit throttle (429, about 25 minutes).
+- **Chrome Web Store: blocked.** The studio account is at its 2/2 item limit (operator, OPERATOR-INBOX
+  2026-11-20). The package is ready: `dist/tabhaven-<v>-chrome.zip` from `node tools/build.mjs`, also
+  attached to GitHub release v0.2.0.
+- **Site** https://janwan2003.github.io/tab-shelf/: the button reads "Coming soon to Chrome and Firefox"
+  (disabled), with no manual install anywhere; `tabhaven.zip` is no longer deployed (404). Search Console:
+  verified, added and sitemap submitted 2026-11-21 (`scripts/gsc.py`).
+- **GitHub release v0.2.0** carries the Chrome and Firefox zips (the only place a manual-install file may live).
+
+What exists (v0.2.0, plain ES modules in `src/`; `tools/build.mjs` copies them into a Chrome and a Firefox package):
 - MV3 extension: popup (save this window / all windows / this tab / open shelf),
-  right-click menus, shortcuts Alt+Shift+S (save window) and Alt+Shift+T (open shelf).
+  right-click menus (page; in Firefox also the tab strip), shortcuts Alt+Shift+S (save window) and Alt+Shift+T (open shelf).
 - Storage (`db.js`): IndexedDB, every write is a `durability: 'strict'` transaction; a save
   is read back before any tab closes. 30 version snapshots are kept, taken before deletes,
   restores, imports and edits (minor edits at most one every 2 minutes).
-- Backups (`backup.js`): about 30 s after a change (alarm) plus an hourly check, writes
+- Backups (`backup.js`): about 30 s after a change in Chrome, 2 min in Firefox (Firefox cannot hide the
+  download notification, so changes are batched), plus an hourly check. It writes
   `Downloads/Tabhaven/tabhaven-backup-latest.json` + `.html` (a readable page that embeds
-  the JSON, so it re-imports) and `daily/tabhaven-backup-<weekday>.json`. It hides the
-  download bubble (`downloads.ui`) and erases the entries from the download list.
+  the JSON, so it re-imports) and `daily/tabhaven-backup-<weekday>.json`. Chrome hides the download bubble
+  (`downloads.ui`); both erase the entries from the download list. Firefox downloads from a blob: URL.
 - Shelf page: groups (rename, star, lock, delete, restore, restore in new window), undo
   toast, search over titles and URLs, drag a tab between groups, "show more" past 300 tabs
   per group, `content-visibility` for big lists, backup-status line, History dialog
   (restore or download any version), Settings, Import (text, any JSON, bookmark HTML,
   Tabhaven backups; skips groups already present by id), Export (JSON/HTML/text/MD).
+  Site icons come from Chrome's favicon cache; in Firefox each tab gets a coloured letter tile instead,
+  because fetching icons would mean network requests. Restoring keeps any tab the browser refuses
+  to open (about:, file:) on the shelf and says so.
 - Site in `docs/`: landing page, `switch-from-onetab.html`, `recover-lost-saved-tabs.html`,
-  `privacy.html`. CI publishes it to Pages along with `tabhaven.zip` (built from `src/`).
+  `privacy.html`, og-image.png (1200x630), sitemap.xml, robots.txt. `tools/site/screens.mjs` is the
+  page QA (screenshots at 390 and 1280 px, console errors, failed requests, broken links and anchors,
+  overflow, alt text).
 
-Verified 2026-11-20 on janeks-pc, with Playwright 1.65.1 and Chromium build 1255 (headless):
-- `pnpm test`: 13/13 unit tests (formats round trips, generic JSON walker, a 5,000-line
-  parse in under 500 ms).
-- `pnpm test:e2e`: 5/5, with the real extension loaded:
-  1. Saving 5 tabs closes them only after the write; restore reopens them; undo works.
-  2. SIGKILL of the whole browser 0/15/40/120 ms into a second 5,000-tab write. The
-     first 5,000-tab group always survived, and the second write was either complete or
-     absent (observed: committed, rolled back, committed, committed), never partial.
-  3. Updating the extension (same id, version 0.1.0 → 99.0.0) keeps the shelf exactly.
-  4. Backup files written with real names into the Downloads dir (1,234 tabs). A fresh
-     profile ("reinstall") imports the HTML backup and gets an identical shelf.
-     Re-importing adds nothing.
-  5. 10,000 tabs: a search finishes in 251–288 ms including the 80 ms debounce. Deleting a
-     group and rolling back via History works.
-- CI (GitHub Actions run 44733699295, ubuntu-latest): unit 13/13, e2e 5/5. The kill test
-  there observed rolled back, committed, rolled back, committed; 10k search took 292 ms. The Pages
-  deploy succeeded; curl gives 200 for `/`, the 3 sub-pages and `tabhaven.zip` (31,594 B, 15 files).
-- Screenshots of the shelf, empty state, import dialog and popup checked by eye.
+**Fixed 2026-11-21 (bugs found this session):**
+- `updateGroup` saved the *unchanged* group whenever the edit function changed the draft in place
+  and returned nothing, which every caller does. So in 0.1.0, rename, star, lock, remove a tab,
+  open a single tab and drag between groups looked like they worked until the next reload, but none was saved.
+- The remove-tab "×" was `visibility: hidden` until hover, so the keyboard could not reach it and
+  touch screens never showed it. Now it uses opacity, shows on `:focus-within`, and is always shown on no-hover devices.
+- The search count said "7 matchs".
 
-Not covered yet: Firefox; Chrome tab groups (colour/name) are not saved; drag-and-drop
-and the right-click menus have no automated test; the store listing does not exist.
+Verified 2026-11-21 on janeks-pc (Playwright 1.65.1, Chromium build 1255 headless; Firefox 158.0.1 +
+geckodriver 0.37.1 headless):
+- `node --test test/unit/*.test.js`: 13/13.
+- `node --test --test-concurrency=1 test/e2e/*.test.js`: 9/9.
+  1–5. The 0.1.0 Chromium tests: save/close only after the write/restore/undo; SIGKILL during a 5,000-tab
+       write; update keeps the shelf; backup files then a fresh-profile restore; 10,000 tabs with search and history.
+  6. New (Chromium): rename, star, lock (Delete disabled), remove a tab + undo, open one tab (leaves the
+     shelf), drag a tab to another group. All are checked in IndexedDB and again after a page reload
+     (the starred group sorts first). The 30 s backup alarm then writes the file with no `backupNow` call.
+  7–9. New (Firefox, the real Firefox build over WebDriver): install opens the shelf; saving a window closes
+     its 3 tabs only after the write, and the shelf shows letter tiles (0 `<img>`); backupNow writes
+     latest.json/.html + 1 daily file, and a second backup overwrites them in place (no "(1)" copies);
+     Restore all reopens the 3 tabs and empties the shelf; a group with `about:config` + one normal URL
+     restored in a new window opens the normal tab and keeps `about:config` on the shelf, with a message.
+- The drag step was made to wait 500 ms for re-rendering after it flaked once in CI (below); 3/3 local passes since.
+- `web-ext lint` (web-ext 8 via npx) on the Firefox package: 0 errors, 9 warnings (listed above).
+- CI: run 44934617887 (commit 4097bd1) test job green, 9/9 e2e on Firefox 160 + Chromium, so the Firefox
+  tests ran and were not skipped. Its Pages deploy failed: the upload succeeded, but the deploy step listed only 1 artifact
+  (a GitHub-side race; the re-run then failed on a duplicate artifact). Run 44934910305 (commit 354dab4):
+  the drag step timed out once, and a re-run of the identical commit passed both jobs, so it was a flake. Pages deployed.
+- Live checks (curl, 2026-11-21): `/`, 3 sub-pages, og-image.png, sitemap.xml, robots.txt and the
+  Search Console file all return 200; `/tabhaven.zip` returns 404; the home page has 0 matches for zip/unpacked.
+- Screenshots checked by eye: the store shots `store/screenshot-{1,2,3}-1280x800.png` (shelf, search,
+  history; made by `tools/store-shots.mjs`), and the site home page at 1280 and 390 px. The site agent viewed
+  the other site slices (`.tmp/screens/slices`, gitignored).
+
+Not covered yet: right-click menus and keyboard shortcuts have no automated test (WebDriver and Playwright
+cannot click browser menus); whether Firefox pops open its downloads panel on each backup was not checked
+(headless); a backup re-render during a drag could, in theory, drop the drag; real-user installs: zero so far.
+
+## Metrics
+
+- 2026-11-21: Firefox AMO 0 users (in review, not listed yet; source: `amo-submit.py --status`). Chrome: no
+  listing. Search Console: property added today, no data yet.
 
 ## Next steps
 
-1. Chrome Web Store: package `tabhaven.zip`, write the listing (screenshots from the shelf,
-   privacy policy at /privacy.html). Blocked on the developer account (OPERATOR-INBOX).
-2. Firefox port (MV3 with background scripts instead of a service worker, no
-   `downloads.setUiOptions`), so it can go on AMO (free account, also operator).
-3. Save and restore Chrome tab groups (name and colour) and window layout; option to
-   restore tabs unloaded (discarded) so restoring 200 tabs doesn't load 200 pages.
-4. E2E tests for drag between groups, context menus and the keyboard shortcut; a test
-   that the 30-second backup alarm actually fires (`chrome.alarms` with a shortened delay).
-5. More SEO pages: "Session Buddy alternative", "export OneTab tabs", "Toby alternative
-   without account"; add an og:image PNG.
-6. Optional: choose the backup folder name; "copy backups to a synced folder" guide.
+1. **AMO polish once the throttle clears** (any time after ~19:45 UTC 2026-11-21): set the slug to
+   `tabhaven-tab-saver` (PATCH `/addons/addon/tabhaven@tab-shelf/` `{"slug": ...}`; `tabhaven` is taken), then
+   run `python3 scripts/amo-submit.py --previews` to upload screenshots 2 and 3 and set the captions.
+2. **Every session: check AMO status.** On approval, make the site's main button the official Firefox
+   Add-ons button linking to the listing, and keep "Coming soon to Chrome".
+3. Chrome Web Store when the operator says the 2/2 limit is raised: upload `dist/tabhaven-<v>-chrome.zip` with
+   `ventures/save-image-format/scripts/cws-upload.py` as the template, and write `store/chrome-privacy.md`
+   (single purpose, a justification for each permission, data use).
+4. Tests for the right-click menu handlers and shortcuts (expose the handler on the background global and
+   call it, as Saveform does). Check headed Firefox for a downloads-panel pop on backup; if it pops, write
+   one file per backup in Firefox (the HTML embeds the JSON).
+5. Reduce the `innerHTML` lint warnings (AMO reviewers read them) by building the rows with DOM APIs or
+   a sanitised template helper.
+6. Save and restore Chrome tab groups (name and colour); option to restore tabs unloaded (discarded).
+7. More SEO pages: "Session Buddy alternative", "export OneTab tabs", "Toby alternative without account".
 
 ## Monetization plan
 
@@ -155,3 +201,8 @@ fully local. Donations as a fallback.
   Evidence: local and CI run 44733699295 both green (13 unit, 5 e2e incl. SIGKILL mid 5,000-tab write, update,
   backup→fresh-profile restore); live URLs return 200. Kill test (step 4 of the old plan) passes in session 1.
 - 2026-11-20 review: **raised p3→4**. Built, CI-tested, and the kill test passed in session 1, yet it has had only 1 session ($5.93). It has two channel moves that need no operator: (1) upload a CWS draft with the now-working API (see `ventures/save-image-format/scripts/cws-upload.py`), (2) port to Firefox and submit to AMO with the existing keys (`amo-submit.py` is the working example). OneTab and the top 5 tab savers are rated ≤3.8, the largest market in the portfolio. Site and tabhaven.zip return 200.
+- 2026-11-21 builder (quality + reach): ported to Firefox and **submitted to AMO** (id 3136867, in review), since Chrome is
+  blocked by the 2/2 item limit. Found and fixed a 0.1.0 bug where no group edit (rename/star/lock/remove/open-one/drag)
+  was ever saved, plus a keyboard/touch-unreachable remove button. Removed the manual zip install from the site
+  (charter), and added og:image, sitemap and Search Console (verified). Evidence: unit 13/13, e2e 9/9 (6 Chromium + 3 real
+  Firefox) locally and in CI run 44934910305 (re-run of the same commit after a drag flake); web-ext lint 0 errors; live curl 200s, zip 404.

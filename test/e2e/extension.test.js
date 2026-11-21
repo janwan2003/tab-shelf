@@ -287,6 +287,8 @@ test('group edits are saved: rename, star, lock, remove a tab, open one tab, dra
 
   // Drag a tab from the Alpha group to the Beta group.
   await shelf.waitForFunction((u) => !document.querySelector(`a.tab[href="${u}"]`), A(1));
+  // Let the shelf finish re-rendering first: a render during the drag replaces the dragged row.
+  await shelf.waitForTimeout(500);
   await shelf.locator(`li:has(a[href="${A(2)}"])`).dragTo(sec(B(0)).locator('.ghead'));
   await waitFor(async () => {
     const g = await readGroups(shelf);
