@@ -20,8 +20,19 @@ function host(url) {
   }
 }
 
-function favicon(url) {
-  return chrome.runtime.getURL(`/_favicon/?pageUrl=${encodeURIComponent(url)}&size=16`);
+// Chrome serves cached site icons to extensions (the 'favicon' permission). Firefox has no such
+// cache API, and fetching icons from the sites would be a network request per tab, so there each
+// tab gets a letter tile instead.
+const HAS_FAVICONS = (chrome.runtime.getManifest().permissions || []).includes('favicon');
+function faviconHTML(url) {
+  if (HAS_FAVICONS) {
+    const src = chrome.runtime.getURL(`/_favicon/?pageUrl=${encodeURIComponent(url)}&size=16`);
+    return `<img src="${escapeHTML(src)}" alt="" loading="lazy">`;
+  }
+  const h = host(url).replace(/^www\./, '');
+  let hue = 0;
+  for (const c of h) hue = (hue * 31 + c.charCodeAt(0)) % 360;
+  return `<span class="fav" style="--hue:${hue}" aria-hidden="true">${escapeHTML((h[0] || '?').toUpperCase())}</span>`;
 }
 
 function ago(ms) {
@@ -90,7 +101,7 @@ function filtered() {
 
 // ---- render ----------------------------------------------------------------
 function tabRow(g, t, i) {
-  return `<li draggable="true" data-i="${i}"><img src="${escapeHTML(favicon(t.url))}" alt="" loading="lazy"><a class="tab" href="${escapeHTML(t.url)}" title="${escapeHTML(t.url)}">${escapeHTML(t.title || t.url)}</a><span class="host">${escapeHTML(host(t.url))}</span><button class="rm" data-act="rm-tab" title="Remove from shelf" aria-label="Remove ${escapeHTML(t.title || t.url)}">×</button></li>`;
+  return `<li draggable="true" data-i="${i}">${faviconHTML(t.url)}<a class="tab" href="${escapeHTML(t.url)}" title="${escapeHTML(t.url)}">${escapeHTML(t.title || t.url)}</a><span class="host">${escapeHTML(host(t.url))}</span><button class="rm" data-act="rm-tab" title="Remove from shelf" aria-label="Remove ${escapeHTML(t.title || t.url)}">×</button></li>`;
 }
 
 function groupCard({ g, idx }) {
@@ -124,7 +135,7 @@ function render() {
   $('#groups').hidden = state.groups.length === 0;
   if (state.query) {
     const hits = list.reduce((n, x) => n + x.idx.length, 0);
-    $('#stats').textContent = `${plural(hits, 'match')} of ${plural(total, 'tab')}`;
+    $('#stats').textContent = `${hits.toLocaleString()} ${hits === 1 ? 'match' : 'matches'} of ${plural(total, 'tab')}`;
   } else {
     $('#stats').textContent = state.groups.length ? `${plural(total, 'tab')} in ${plural(state.groups.length, 'group')}` : '';
   }
@@ -162,28 +173,57 @@ function scheduleReload() {
 }
 
 // ---- actions ---------------------------------------------------------------
+// Opens the tabs. Returns null if the user cancelled, else the tabs the browser refused to open.
 async function openTabs(tabs, { newWindow = false } = {}) {
-  if (tabs.length > 50 && !confirm(`Open ${tabs.length} tabs?`)) return false;
+  if (tabs.length > 50 && !confirm(`Open ${tabs.length} tabs?`)) return null;
+  const failed = [];
+  const add = (windowId, t) => chrome.tabs.create({ windowId, url: t.url, active: false, pinned: !!t.pinned }).catch(() => { failed.push(t); });
   if (newWindow) {
-    await chrome.windows.create({ url: tabs.map((t) => t.url), focused: true });
+    try {
+      await chrome.windows.create({ url: tabs.map((t) => t.url), focused: true });
+    } catch {
+      // Firefox refuses the whole window if one URL is privileged (about:config, file://...).
+      // Open the rest one by one into a new window.
+      const win = await chrome.windows.create({ focused: true });
+      const blank = (win.tabs || []).map((t) => t.id);
+      for (const t of tabs) await add(win.id, t);
+      if (failed.length < tabs.length) await chrome.tabs.remove(blank).catch(() => {});
+    }
   } else {
     const cur = await chrome.windows.getCurrent();
-    for (const t of tabs) await chrome.tabs.create({ windowId: cur.id, url: t.url, active: false, pinned: !!t.pinned }).catch(() => {});
+    for (const t of tabs) await add(cur.id, t);
   }
-  return true;
+  return failed;
 }
 
 async function restoreGroup(g, newWindow) {
-  if (!(await openTabs(g.tabs, { newWindow }))) return;
+  const failed = await openTabs(g.tabs, { newWindow });
+  if (!failed) return;
+  const note = failed.length
+    ? ` ${plural(failed.length, 'tab')} could not be opened (the browser blocks pages like about: and file: for extensions) and stayed on the shelf.`
+    : '';
   if (state.settings.removeOnRestore && !g.locked) {
-    await deleteGroup(g.id, { reason: 'restore group' });
-    toast(`Restored ${plural(g.tabs.length, 'tab')}`, () => putGroup(g));
+    if (failed.length) {
+      const failedUrls = new Set(failed.map((t) => t.url));
+      const opened = new Set(g.tabs.map((t) => t.url).filter((u) => !failedUrls.has(u)));
+      await updateGroup(g.id, (x) => { x.tabs = x.tabs.filter((t) => !opened.has(t.url)); }, { snapshot: 'restore group', minor: false });
+    } else {
+      await deleteGroup(g.id, { reason: 'restore group' });
+    }
+    toast(`Restored ${plural(g.tabs.length - failed.length, 'tab')}.${note}`, () => putGroup(g));
+  } else if (failed.length) {
+    toast(`Restored ${plural(g.tabs.length - failed.length, 'tab')}.${note}`);
   }
 }
 
 async function openOne(g, i) {
   const t = g.tabs[i];
-  await chrome.tabs.create({ url: t.url, active: false, pinned: !!t.pinned });
+  try {
+    await chrome.tabs.create({ url: t.url, active: false, pinned: !!t.pinned });
+  } catch {
+    toast('The browser does not let extensions open this page. Copy the link from the shelf instead.');
+    return;
+  }
   if (state.settings.removeOnRestore && !g.locked) {
     await updateGroup(g.id, removeTabAt(i, t.url), { snapshot: 'restore tab' });
     toast('Opened 1 tab', () => putGroup(g));

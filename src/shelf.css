@@ -39,11 +39,13 @@ main { padding: 4px 20px 80px; max-width: 1100px; margin: 0 auto; }
 .tabs li { display: flex; align-items: center; gap: 8px; padding: 2px 12px; min-height: 28px; }
 .tabs li:hover { background: var(--hover); }
 .tabs img { width: 16px; height: 16px; flex: none; }
+.tabs .fav { width: 16px; height: 16px; flex: none; border-radius: 4px; display: inline-grid; place-items: center; font-size: 10px; font-weight: 700; line-height: 1; color: #fff; background: hsl(var(--hue) 55% 45%); }
 .tabs a { color: var(--text); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 0 1 auto; }
 .tabs a:hover { text-decoration: underline; color: var(--primary); }
 .tabs .host { color: var(--muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 0; min-width: 40px; }
-.tabs .rm { visibility: hidden; border: 0; background: transparent; color: var(--muted); padding: 0 6px; font-size: 16px; line-height: 1; }
-.tabs li:hover .rm, .tabs .rm:focus { visibility: visible; }
+.tabs .rm { opacity: 0; border: 0; background: transparent; color: var(--muted); padding: 0 6px; font-size: 16px; line-height: 1; }
+.tabs li:hover .rm, .tabs li:focus-within .rm { opacity: 1; }
+@media (hover: none) { .tabs .rm { opacity: 1; } }
 .tabs .rm:hover { color: var(--danger); }
 .tabs li.dragging { opacity: .4; }
 .group.drop { outline: 2px dashed var(--primary); outline-offset: 2px; }

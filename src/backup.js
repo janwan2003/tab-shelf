@@ -36,9 +36,18 @@ function waitForDownload(id) {
 }
 
 async function writeFile(filename, text, mime) {
-  const url = `data:${mime};charset=utf-8;base64,${toBase64(text)}`;
-  const id = await chrome.downloads.download({ url, filename, conflictAction: 'overwrite', saveAs: false });
-  const r = await waitForDownload(id);
+  // Chrome's service worker has no URL.createObjectURL, so it downloads a data: URL. Firefox's
+  // background page has it, and Firefox's downloads API does not accept data: URLs.
+  const blobUrl = typeof URL.createObjectURL === 'function' && !globalThis.ServiceWorkerGlobalScope
+    ? URL.createObjectURL(new Blob([text], { type: `${mime};charset=utf-8` })) : null;
+  const url = blobUrl || `data:${mime};charset=utf-8;base64,${toBase64(text)}`;
+  let id, r;
+  try {
+    id = await chrome.downloads.download({ url, filename, conflictAction: 'overwrite', saveAs: false });
+    r = await waitForDownload(id);
+  } finally {
+    if (blobUrl) URL.revokeObjectURL(blobUrl);
+  }
   if (r.state !== 'complete') throw new Error(`Backup ${filename} failed: ${r.error || r.state}`);
   const [item] = await chrome.downloads.search({ id });
   // Remove the entry from the downloads list; the file stays on disk.

@@ -27,11 +27,11 @@ groups; search over titles and URLs (fast with 10,000+ tabs); undo; import from 
 text exports, JSON exports of other tab managers, bookmark HTML files and plain URL lists;
 export as JSON, HTML, text or Markdown.
 
-## Install (until the Chrome Web Store listing is live)
+## Install
 
-1. Download [tabhaven.zip](https://janwan2003.github.io/tab-shelf/tabhaven.zip) and unzip it.
-2. Open `chrome://extensions` and turn on **Developer mode**.
-3. Click **Load unpacked** and pick the unzipped folder.
+Coming soon to Firefox Add-ons (in review) and the Chrome Web Store. Watch this repository's
+releases to hear when it is out. Each release carries the store packages built by
+`node tools/build.mjs`.
 
 ## Develop
 
@@ -39,8 +39,11 @@ export as JSON, HTML, text or Markdown.
 pnpm install
 pnpm exec playwright install chromium
 pnpm test        # unit tests: import/export formats
-pnpm test:e2e    # extension tests in real Chromium
+pnpm test:e2e    # extension tests in real Chromium, and in real Firefox via geckodriver if installed
+node tools/build.mjs   # dist/tabhaven-<version>-chrome.zip and -firefox.zip
 ```
 
-The extension is plain ES modules in `src/` with no build step. The website is in `docs/`.
+The extension is plain ES modules in `src/` with no bundler. `tools/build.mjs` only copies
+`src/` and, for Firefox, rewrites the manifest (background page instead of service worker,
+gecko id, no Chrome-only `downloads.ui`/`favicon` permissions). The website is in `docs/`.
 `tools/make-icons.py` draws the icons.

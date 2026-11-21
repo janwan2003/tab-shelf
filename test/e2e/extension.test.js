@@ -240,3 +240,77 @@ test('10,000 saved tabs: shelf renders and search stays fast; history can roll b
   await shelf.waitForFunction(() => /10,000 tabs/.test(document.querySelector('#stats').textContent));
   await b.ctx.close();
 });
+
+// Ground truth with every field the shelf's edit actions touch.
+const readGroups = (page) => page.evaluate(async () => {
+  const db = await import('./db.js');
+  return (await db.getAllGroups()).map((g) => ({ title: g.title, starred: !!g.starred, locked: !!g.locked, urls: g.tabs.map((t) => t.url) }));
+});
+const byFirst = (groups, url) => groups.find((g) => g.urls.includes(url));
+
+test('group edits are saved: rename, star, lock, remove a tab, open one tab, drag between groups; the backup alarm fires', async (t) => {
+  const b = await launch('p6');
+  t.after(() => b.ctx.close().catch(() => {}));
+  const shelf = await openShelf(b);
+  const A = (i) => `${base}/alpha/${i}`;
+  const B = (i) => `${base}/beta/${i}`;
+  await importText(shelf, [0, 1, 2].map((i) => `${A(i)} | Alpha ${i}`).join('\n') + '\n\n' + [0, 1].map((i) => `${B(i)} | Beta ${i}`).join('\n'));
+  await shelf.waitForFunction(() => document.querySelectorAll('a.tab').length === 5);
+  const sec = (url) => shelf.locator('section.group', { has: shelf.locator(`a.tab[href="${url}"]`) });
+
+  // Rename (committed on change).
+  const unique = `Research ${Date.now()}`;
+  await sec(A(0)).locator('.gtitle').fill(unique);
+  await sec(A(0)).locator('.gtitle').press('Enter');
+  await sec(A(0)).locator('.gtitle').blur();
+  await waitFor(async () => byFirst(await readGroups(shelf), A(0)).title === unique, 'rename saved');
+
+  // Star and lock.
+  await sec(B(0)).locator('[data-act="star"]').click();
+  await waitFor(async () => byFirst(await readGroups(shelf), B(0)).starred, 'star saved');
+  await sec(B(0)).locator('[data-act="lock"]').click();
+  await waitFor(async () => byFirst(await readGroups(shelf), B(0)).locked, 'lock saved');
+  await waitFor(() => sec(B(0)).locator('[data-act="del"]').isDisabled(), 'a locked group cannot be deleted');
+
+  // Remove one tab, then undo.
+  await shelf.hover(`li:has(a[href="${A(2)}"])`);
+  await sec(A(0)).locator(`li:has(a[href="${A(2)}"]) .rm`).click();
+  await waitFor(async () => byFirst(await readGroups(shelf), A(0)).urls.length === 2, 'tab removed');
+  await shelf.click('#toast button');
+  await waitFor(async () => byFirst(await readGroups(shelf), A(0)).urls.length === 3, 'undo brings the tab back');
+
+  // Open one tab: it opens and leaves the (unlocked) group.
+  const opened = b.ctx.waitForEvent('page');
+  await shelf.click(`a.tab[href="${A(1)}"]`);
+  await (await opened).waitForURL(A(1));
+  await waitFor(async () => !byFirst(await readGroups(shelf), A(0)).urls.includes(A(1)), 'opened tab left the shelf');
+
+  // Drag a tab from the Alpha group to the Beta group.
+  await shelf.waitForFunction((u) => !document.querySelector(`a.tab[href="${u}"]`), A(1));
+  await shelf.locator(`li:has(a[href="${A(2)}"])`).dragTo(sec(B(0)).locator('.ghead'));
+  await waitFor(async () => {
+    const g = await readGroups(shelf);
+    return byFirst(g, B(0)).urls.includes(A(2)) && !byFirst(g, A(0)).urls.includes(A(2));
+  }, 'tab moved');
+
+  // Edits survive a reload of the shelf page.
+  await shelf.reload();
+  await shelf.waitForFunction(() => document.querySelectorAll('a.tab').length === 4);
+  assert.equal(await sec(A(0)).locator('.gtitle').inputValue(), unique);
+  assert.equal(await shelf.locator('section.group').first().locator('a.tab').first().getAttribute('href'), B(0), 'starred group sorts first');
+
+  // No backupNow here: the 30-second alarm scheduled by the edits writes the file by itself.
+  const latest = join(downloads, 'Tabhaven', 'tabhaven-backup-latest.json');
+  await waitFor(() => existsSync(latest) && readFileSync(latest, 'utf8').includes(unique), 'alarm-driven backup', 75000);
+  const json = JSON.parse(readFileSync(latest, 'utf8'));
+  assert.deepEqual(json.groups.find((g) => g.title === unique).tabs.map((t) => t.url), [A(0)]);
+  await b.ctx.close();
+});
+
+async function waitFor(fn, label, timeout = 5000) {
+  const end = Date.now() + timeout;
+  while (!(await fn())) {
+    if (Date.now() > end) throw new Error(`timed out: ${label}`);
+    await new Promise((r) => setTimeout(r, 100));
+  }
+}

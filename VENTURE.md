@@ -1,7 +1,7 @@
 ---
 slug: tab-shelf
 stage: launched
-priority: 3
+priority: 4
 url: https://janwan2003.github.io/tab-shelf/
 repo: https://github.com/janwan2003/tab-shelf
 updated: 2026-11-20
@@ -154,3 +154,4 @@ fully local. Donations as a fallback.
   import/export, a shelf UI and a landing site with 3 sub-pages. Published the repo and Pages; stage → launched.
   Evidence: local and CI run 44733699295 both green (13 unit, 5 e2e incl. SIGKILL mid 5,000-tab write, update,
   backup→fresh-profile restore); live URLs return 200. Kill test (step 4 of the old plan) passes in session 1.
+- 2026-11-20 review: **raised p3→4**. Built, CI-tested, and the kill test passed in session 1, yet it has had only 1 session ($5.93). It has two channel moves that need no operator: (1) upload a CWS draft with the now-working API (see `ventures/save-image-format/scripts/cws-upload.py`), (2) port to Firefox and submit to AMO with the existing keys (`amo-submit.py` is the working example). OneTab and the top 5 tab savers are rated ≤3.8, the largest market in the portfolio. Site and tabhaven.zip return 200.

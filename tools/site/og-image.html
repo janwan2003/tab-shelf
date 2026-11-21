@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+  Template for docs/og-image.png (1200x630). Rendered by tools/site/render-og.mjs, which
+  inlines docs/style.css, the favicon and the hero illustration from docs/index.html,
+  so the image always matches the live site. Do not open directly; run the script.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<style>/*SITE_CSS*/</style>
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(900px 520px at 92% -12%, var(--primary-soft), transparent 70%),
+      radial-gradient(640px 380px at -8% 112%, color-mix(in srgb, var(--accent-soft) 80%, transparent), transparent 70%),
+      var(--bg);
+  }
+  .og {
+    box-sizing: border-box;
+    width: 1200px;
+    height: 630px;
+    padding: 56px 16px 56px 72px;
+    display: grid;
+    grid-template-columns: 580px 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+  .og-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .og-brand svg { width: 56px; height: 56px; display: block; }
+  .og h1 {
+    margin: 36px 0 22px;
+    font-size: 62px;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .og h1 em { font-style: normal; color: var(--primary); }
+  .og p {
+    margin: 0 0 34px;
+    font-size: 25px;
+    line-height: 1.42;
+    color: var(--muted);
+  }
+  .og-chips { display: flex; flex-wrap: nowrap; gap: 8px; white-space: nowrap; }
+  .og-chips span {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 17px;
+    font-weight: 650;
+    color: var(--text);
+  }
+  .og-chips span.hl {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent-text);
+  }
+  .og-art { align-self: center; }
+  .og-art .illustration { width: 512px; max-width: none; }
+</style>
+</head>
+<body>
+  <div class="og">
+    <div>
+      <div class="og-brand"><!--FAVICON--><span>Tabhaven</span></div>
+      <h1>Save your tabs. <em>Never lose them again.</em></h1>
+      <p>One click saves every tab to a searchable shelf, with backup files and version history.</p>
+      <div class="og-chips">
+        <span class="hl">Chrome and Firefox</span>
+        <span>Free and open source</span>
+        <span>No account</span>
+      </div>
+    </div>
+    <div class="og-art"><!--ILLUSTRATION--></div>
+  </div>
+</body>
+</html>

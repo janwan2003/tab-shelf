@@ -4,3 +4,5 @@ test-results/
 dist/
 *.zip
 .tmp/
+tmp-firefox-test-*/
+__pycache__/

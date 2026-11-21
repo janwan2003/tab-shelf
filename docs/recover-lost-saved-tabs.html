@@ -15,7 +15,12 @@
   <meta property="og:description" content="Practical steps to recover saved tabs after a tab saver extension loses them, and how automatic backup files prevent it next time.">
   <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/recover-lost-saved-tabs.html">
   <meta property="og:locale" content="en">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://janwan2003.github.io/tab-shelf/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tabhaven: save your tabs and never lose them again. Tabs move from a browser window onto a saved shelf, with backup files in Downloads/Tabhaven.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://janwan2003.github.io/tab-shelf/og-image.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -30,14 +35,14 @@
       </a>
       <nav class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li class="nav-secondary"><a href="index.html">Home</a></li>
           <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
           <li><a href="recover-lost-saved-tabs.html" aria-current="page">Recover lost tabs</a></li>
           <li><a href="privacy.html">Privacy</a></li>
-          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
-          <li><a class="nav-cta" href="index.html#install">Install</a></li>
+          <li class="nav-secondary"><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
         </ul>
       </nav>
+      <a class="nav-cta" href="index.html#install">Coming soon</a>
     </div>
   </header>
 
@@ -89,34 +94,34 @@
         <h2 id="history">3. Check Chrome history and Recently closed</h2>
         <p>A tab saver closes tabs after saving them, but the pages you visited are usually still in your browser history.</p>
         <ul>
-          <li><strong>History:</strong> press <kbd>Ctrl</kbd>+<kbd>H</kbd> (<kbd>Cmd</kbd>+<kbd>Y</kbd> on a Mac), or type <code>chrome://history</code> in the address bar. Search by site name or keyword, and scroll back to the days you saved the tabs.</li>
-          <li><strong>Recently closed:</strong> open the Chrome menu (&#8942;) and go to <strong>History</strong>. The <strong>Recently closed</strong> list can reopen whole windows. <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> (<kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd> on a Mac) reopens the last closed tab or window.</li>
+          <li><strong>History:</strong> press <span class="nowrap"><kbd>Ctrl</kbd>+<kbd>H</kbd></span> (<span class="nowrap"><kbd>Cmd</kbd>+<kbd>Y</kbd></span> on a Mac), or type <code>chrome://history</code> in the address bar. Search by site name or keyword, and scroll back to the days you saved the tabs.</li>
+          <li><strong>Recently closed:</strong> open the Chrome menu (&#8942;) and go to <strong>History</strong>. The <strong>Recently closed</strong> list can reopen whole windows. <span class="nowrap"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></span> (<span class="nowrap"><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></span> on a Mac) reopens the last closed tab or window.</li>
           <li><strong>Tabs from other devices:</strong> if you use Chrome sync, the History page also lists tabs open on your other devices.</li>
         </ul>
         <p>History only contains pages you opened in this browser, and Chrome deletes old entries over time, so this works best for tabs saved recently.</p>
 
         <h2 id="copy">4. Copy your browser profile folder first</h2>
         <p>The extension's data may still be on disk even when it shows an empty list. Before you look for it, <strong>quit Chrome completely and copy the whole profile folder</strong> somewhere else, for example into a new folder called <code>tab-rescue</code> on your Desktop. Work only on the copy. Chrome keeps writing to the original, and that can overwrite what you are trying to recover.</p>
-        <div class="table-wrap">
+        <div class="table-wrap table-stack">
           <table>
             <caption class="visually-hidden">Default Chrome profile folder by operating system</caption>
             <thead>
               <tr><th scope="col">System</th><th scope="col">Default Chrome profile folder</th></tr>
             </thead>
             <tbody>
-              <tr><td>Windows</td><td><code>%LOCALAPPDATA%\Google\Chrome\User Data\Default</code></td></tr>
-              <tr><td>macOS</td><td><code>~/Library/Application Support/Google/Chrome/Default</code></td></tr>
-              <tr><td>Linux</td><td><code>~/.config/google-chrome/Default</code></td></tr>
+              <tr><td>Windows</td><td><code>%LOCALAPPDATA%\<wbr>Google\<wbr>Chrome\<wbr>User Data\<wbr>Default</code></td></tr>
+              <tr><td>macOS</td><td><code>~/Library/<wbr>Application Support/<wbr>Google/<wbr>Chrome/<wbr>Default</code></td></tr>
+              <tr><td>Linux</td><td><code>~/.config/<wbr>google-chrome/<wbr>Default</code></td></tr>
             </tbody>
           </table>
         </div>
-        <p>If you use more than one Chrome profile, yours may be called <code>Profile 1</code>, <code>Profile 2</code> and so on instead of <code>Default</code>. To be sure, open <code>chrome://version</code> and look at the <strong>Profile Path</strong> line.</p>
+        <p>If you use more than one Chrome profile, yours may be called <code class="nowrap">Profile 1</code>, <code class="nowrap">Profile 2</code> and so on instead of <code>Default</code>. To be sure, open <code>chrome://version</code> and look at the <strong>Profile Path</strong> line.</p>
 
         <h2 id="profile">5. Look inside the extension's data folders</h2>
-        <p>First find the extension's ID: open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, and read the ID (32 letters) on the extension's card. Then, in your <em>copy</em> of the profile folder, look in:</p>
+        <p>First find the extension's ID, a string of 32 letters. Open any page of the extension, such as its list of saved tabs: the address bar shows <code class="nowrap">chrome-extension://&lt;extension-id&gt;/</code>. If the extension won't open, look in the <code>Extensions</code> folder of your profile copy: it has one folder per extension, named by its ID, and the <code>manifest.json</code> inside each one names the extension. Then, in your <em>copy</em> of the profile folder, look in:</p>
         <ul>
-          <li><code>Local Extension Settings/&lt;extension-id&gt;/</code>: the extension's local storage.</li>
-          <li><code>IndexedDB/</code>: look for a folder whose name starts with <code>chrome-extension_&lt;extension-id&gt;</code>. This is the extension's database, if it uses one.</li>
+          <li><code>Local Extension Settings/<wbr>&lt;extension-id&gt;/</code>: the extension's local storage.</li>
+          <li><code>IndexedDB/</code>: look for a folder whose name starts with <code class="nowrap">chrome-extension_&lt;extension-id&gt;</code>. This is the extension's database, if it uses one.</li>
         </ul>
         <p>Both are LevelDB databases: folders of <code>.log</code> and <code>.ldb</code> files. They are not meant to be read by people, but URLs are often stored as plain text inside them, and deleted entries can stay in the files until the database tidies itself up later. That's another reason to work on a copy made early.</p>
         <p>On macOS or Linux, this pulls every URL out of a copied folder into a text file:</p>
@@ -125,10 +130,10 @@ strings -n 8 * | grep -Eo 'https?://[^ "&lt;&gt;\\]+' | sort -u &gt; ~/Desktop/r
         <p>On Windows, open the <code>.log</code> files in a text editor and search for <code>http</code>, or run the same commands in WSL. Expect messy, partial results: some files are compressed, titles may be missing, and you'll see duplicates. It is still often enough to rebuild a list you thought was gone.</p>
 
         <h2 id="import">6. Put the recovered links somewhere safe</h2>
-        <p>Whatever you recover, save it as a file before doing anything else. Tabhaven can import a plain list of URLs, <code>URL | title</code> text, and JSON files from most tab managers. Paste the list into its Import box and it becomes searchable groups on your shelf, with backup files written immediately.</p>
+        <p>Whatever you recover, save it as a file before doing anything else. Tabhaven can import a plain list of URLs, <code class="nowrap">URL | title</code> text, and JSON files from most tab managers. Paste the list into its Import box and it becomes searchable groups on your shelf, with backup files written immediately.</p>
 
         <h2 id="prevent">7. How to never lose them again</h2>
-        <p>Most tab losses have the same cause: the only copy of the list lives inside the browser. Tabhaven, a free open-source Chrome extension, is built so there is always another copy:</p>
+        <p>Most tab losses have the same cause: the only copy of the list lives inside the browser. Tabhaven, a free open-source browser extension for Chrome and Firefox, is built so there is always another copy:</p>
         <ul class="checklist">
           <li><strong>Tabs close only after the save is confirmed.</strong> Every save is a durable IndexedDB transaction, and tabs close only after the write has been committed and read back. If anything fails, your tabs stay open.</li>
           <li><strong>Automatic backup files.</strong> A JSON file and a readable HTML page of links go to <code>Downloads/Tabhaven/</code>, refreshed after every change, plus 7 daily rotating copies. They survive reinstalls, extension ID changes and browser resets, and Tabhaven can import them back.</li>
@@ -139,9 +144,12 @@ strings -n 8 * | grep -Eo 'https?://[^ "&lt;&gt;\\]+' | sort -u &gt; ~/Desktop/r
 
         <div class="cta-panel">
           <h2>Keep a copy of your tabs from now on</h2>
-          <p>Tabhaven is free, has no account, and makes no network requests. Everything stays on your computer.</p>
+          <p>Tabhaven is free, has no account, and makes no network requests. Everything stays on your computer. It is coming soon to the <span class="nowrap">Firefox Add-ons</span> store and the Chrome Web Store.</p>
           <div class="btn-row">
-            <a class="btn btn-primary" href="index.html#install">Install Tabhaven</a>
+            <button class="btn btn-store" type="button" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Coming soon to Chrome and Firefox
+            </button>
             <a class="btn btn-secondary" href="switch-from-onetab.html">Importing from OneTab?</a>
           </div>
         </div>
@@ -156,7 +164,7 @@ strings -n 8 * | grep -Eo 'https?://[^ "&lt;&gt;\\]+' | sort -u &gt; ~/Desktop/r
           <img src="favicon.svg" alt="" width="24" height="24">
           <span>Tabhaven</span>
         </a>
-        <p>Tabhaven — an open-source tab saver.</p>
+        <p>The tab saver that keeps a copy outside your browser. Free and open source.</p>
       </div>
       <nav aria-label="Footer">
         <ul class="footer-links">

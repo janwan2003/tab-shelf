@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tabhaven: save your tabs and never lose them again</title>
-  <meta name="description" content="Tabhaven is a free, open-source Chrome extension that saves every tab in your window to a searchable shelf, with automatic backup files and version history so your saved tabs survive crashes, updates and reinstalls.">
+  <meta name="description" content="Tabhaven is a free, open-source browser extension for Chrome and Firefox that saves every tab in your window to a searchable shelf, with automatic backup files and version history so your saved tabs survive crashes, updates and reinstalls.">
   <link rel="canonical" href="https://janwan2003.github.io/tab-shelf/">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#0f766e" media="(prefers-color-scheme: light)">
@@ -15,7 +15,12 @@
   <meta property="og:description" content="One click saves every tab to a searchable shelf. Durable saves, automatic backup files and version history. Free, open source, no account, no network requests.">
   <meta property="og:url" content="https://janwan2003.github.io/tab-shelf/">
   <meta property="og:locale" content="en">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://janwan2003.github.io/tab-shelf/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tabhaven: save your tabs and never lose them again. Tabs move from a browser window onto a saved shelf, with backup files in Downloads/Tabhaven.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://janwan2003.github.io/tab-shelf/og-image.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -30,14 +35,14 @@
       </a>
       <nav class="site-nav" aria-label="Main">
         <ul>
-          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li class="nav-secondary"><a href="index.html" aria-current="page">Home</a></li>
           <li><a href="switch-from-onetab.html">Switch from OneTab</a></li>
           <li><a href="recover-lost-saved-tabs.html">Recover lost tabs</a></li>
           <li><a href="privacy.html">Privacy</a></li>
-          <li><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
-          <li><a class="nav-cta" href="#install">Install</a></li>
+          <li class="nav-secondary"><a href="https://github.com/janwan2003/tab-shelf">GitHub</a></li>
         </ul>
       </nav>
+      <a class="nav-cta" href="#install">Coming soon</a>
     </div>
   </header>
 
@@ -47,17 +52,20 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div>
-          <span class="badge">Free and open source &middot; Chrome</span>
+          <span class="badge">Free and open source &middot; Chrome and Firefox</span>
           <h1 id="hero-title">Save your tabs. Never lose them again.</h1>
-          <p class="lede">One click moves every tab in your window to a searchable shelf and frees the memory. Every save is committed and checked before a single tab closes, and backup files you can open yourself land in your Downloads folder.</p>
+          <p class="lede">A browser extension for Chrome and Firefox. One click moves every tab in your window to a searchable shelf. Each save is checked before a single tab closes, and backup files you can open yourself land in your Downloads folder.</p>
           <div class="btn-row">
-            <a class="btn btn-primary" href="#install">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
-              Install Tabhaven
+            <button class="btn btn-store" type="button" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Coming soon to Chrome and Firefox
+            </button>
+            <a class="btn btn-secondary" href="https://github.com/janwan2003/tab-shelf">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+              View on GitHub
             </a>
-            <a class="btn btn-secondary" href="https://github.com/janwan2003/tab-shelf">View the source on GitHub</a>
           </div>
-          <p class="meta-line">Chrome (Manifest V3) &middot; MIT license &middot; No account &middot; Chrome Web Store listing pending</p>
+          <p class="meta-line">MIT license &middot; No account &middot; No network requests &middot; <a href="#install">When can I install it?</a></p>
         </div>
 
         <div>
@@ -242,7 +250,7 @@
         </ol>
         <p><strong>Tabhaven reads:</strong></p>
         <ul class="chips">
-          <li>OneTab (<code>URL | title</code> text)</li>
+          <li>OneTab (<code class="nowrap">URL | title</code> text)</li>
           <li>Session Buddy JSON</li>
           <li>Tab Session Manager JSON</li>
           <li>Toby JSON</li>
@@ -280,7 +288,7 @@
           </article>
           <article class="card">
             <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg></span> Export in four formats</h3>
-            <p>JSON, <code>URL | title</code> text, HTML or Markdown. Your list is never locked in.</p>
+            <p>JSON, <code class="nowrap">URL | title</code> text, HTML or Markdown. Your list is never locked in.</p>
           </article>
           <article class="card">
             <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg></span> Import from other tools</h3>
@@ -324,56 +332,40 @@
       </div>
     </section>
 
-    <!-- Install -->
+    <!-- Availability -->
     <section class="section section-alt" id="install" aria-labelledby="install-title">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Install</span>
-          <h2 id="install-title">Install Tabhaven in four steps</h2>
-          <p>Tabhaven is not on the Chrome Web Store yet; the listing is pending. Until it is approved, install it directly from the release file. It takes about a minute.</p>
+          <span class="eyebrow">Availability</span>
+          <h2 id="install-title">Coming soon to Chrome and Firefox</h2>
+          <p>Tabhaven is being reviewed for the <span class="nowrap">Firefox Add-ons</span> store, and the Chrome Web Store listing will follow. Installing from an official store means the extension is checked by the store and updates itself, so that is the only way Tabhaven will be offered.</p>
         </div>
-        <div class="install-box">
-          <div class="install-aside">
-            <div class="card">
-              <h3>Download</h3>
-              <p>The latest build of the extension, as a zip file.</p>
-              <p><a class="btn btn-primary" href="tabhaven.zip" download>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
-                Download tabhaven.zip
-              </a></p>
-            </div>
-            <div class="card">
-              <h3>Get notified of new versions</h3>
-              <p>No email list. <a href="https://github.com/janwan2003/tab-shelf">Watch the GitHub repo for releases</a>: click <strong>Watch</strong>, then <strong>Custom</strong>, then tick <strong>Releases</strong>.</p>
-            </div>
-            <div class="card">
-              <h3>Firefox</h3>
-              <p>A Firefox version is planned.</p>
-            </div>
-          </div>
-          <div>
-            <ol class="steps">
-              <li>
-                <h3>Download and unzip</h3>
-                <p>Download <a href="tabhaven.zip" download>tabhaven.zip</a> and unzip it. Put the unzipped folder somewhere permanent, such as your Documents folder: Chrome loads the extension from that folder, so keep it.</p>
-              </li>
-              <li>
-                <h3>Open the extensions page</h3>
-                <p>Type <code>chrome://extensions</code> into Chrome's address bar and press <kbd>Enter</kbd>. (Browsers don't allow links to this page, so it has to be typed or pasted.)</p>
-              </li>
-              <li>
-                <h3>Turn on Developer mode</h3>
-                <p>Use the <strong>Developer mode</strong> switch in the top-right corner of the extensions page.</p>
-              </li>
-              <li>
-                <h3>Click &ldquo;Load unpacked&rdquo;</h3>
-                <p>Click <strong>Load unpacked</strong> and select the unzipped folder (the one that contains <code>manifest.json</code>). Tabhaven appears in your extensions list. Pin it from the puzzle-piece menu so its button is always in the toolbar.</p>
-              </li>
-            </ol>
-            <div class="callout">
-              <p><strong>Updating:</strong> download the new zip, replace the contents of the same folder, then click the reload icon on Tabhaven's card in <code>chrome://extensions</code>. If you move the folder instead, Chrome may treat it as a new extension with empty storage. Your backup files in <code>Downloads/Tabhaven/</code> are still there, and you can import the latest one.</p>
-            </div>
-          </div>
+        <div class="grid grid-3">
+          <article class="card store-card">
+            <span class="status status-active">In review</span>
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span> <span class="nowrap">Firefox Add-ons</span></h3>
+            <p>The Firefox version is being reviewed for addons.mozilla.org. The button on this page turns into a store link the day the listing goes live.</p>
+          </article>
+          <article class="card store-card">
+            <span class="status">Next</span>
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span> Chrome Web Store</h3>
+            <p>The Chrome version follows, with the same shelf, backup files and version history. This page will link to it as soon as it is published.</p>
+          </article>
+          <article class="card store-card">
+            <span class="status">No email needed</span>
+            <h3><span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span> Hear when it's out</h3>
+            <p>On <a href="https://github.com/janwan2003/tab-shelf">GitHub</a>, click <strong>Watch</strong>, then <strong>Custom</strong>, then tick <strong>Releases</strong>. GitHub then tells you when a new version is released.</p>
+          </article>
+        </div>
+        <div class="btn-row availability-actions">
+          <button class="btn btn-store" type="button" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            Coming soon to Chrome and Firefox
+          </button>
+          <a class="btn btn-secondary" href="https://github.com/janwan2003/tab-shelf">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+            Source code on GitHub
+          </a>
         </div>
       </div>
     </section>
@@ -393,9 +385,9 @@
             </div>
           </details>
           <details>
-            <summary>What happens if I reinstall the extension or reset Chrome?</summary>
+            <summary>What happens if I reinstall the extension or reset my browser?</summary>
             <div>
-              <p>Removing an extension deletes its storage inside Chrome, and a browser reset can too. The backup files in <code>Downloads/Tabhaven/</code> are ordinary files outside the browser, so they are not affected. After reinstalling, open the Import box on the shelf page and choose the latest JSON backup file. Tabhaven reads its own backup files.</p>
+              <p>Removing an extension deletes its storage inside the browser, and a browser reset can too. The backup files in <code>Downloads/Tabhaven/</code> are ordinary files outside the browser, so they are not affected. After reinstalling, open the Import box on the shelf page and choose the latest JSON backup file. Tabhaven reads its own backup files.</p>
             </div>
           </details>
           <details>
@@ -413,13 +405,13 @@
           <details>
             <summary>Is there a Firefox version?</summary>
             <div>
-              <p>It's planned. Tabhaven currently runs on Chrome (Manifest V3). <a href="https://github.com/janwan2003/tab-shelf">Watch the GitHub repo for releases</a> to hear when it's ready.</p>
+              <p>Yes. Tabhaven is a browser extension for Chrome and Firefox, with the same shelf, backup files and version history in both. The Firefox version is being reviewed for the <span class="nowrap">Firefox Add-ons</span> store. <a href="https://github.com/janwan2003/tab-shelf">Watch the GitHub repo for releases</a> to hear when it's live.</p>
             </div>
           </details>
           <details>
-            <summary>Why is it not on the Chrome Web Store?</summary>
+            <summary>When can I install it?</summary>
             <div>
-              <p>The listing is pending. Until it is published, install from <a href="tabhaven.zip" download>tabhaven.zip</a> using the <a href="#install">four steps above</a>.</p>
+              <p>As soon as the store listings are live. Tabhaven is being reviewed for the <span class="nowrap">Firefox Add-ons</span> store first, and the Chrome Web Store follows. It will only be offered through those official stores, which check the extension and keep it updated. See <a href="#install">availability</a>.</p>
             </div>
           </details>
           <details>
@@ -429,10 +421,13 @@
                 <li><code>tabs</code>: to read the titles and URLs of the tabs you save, close them, and reopen them when you restore.</li>
                 <li><code>storage</code>: to keep your settings in the extension's local storage.</li>
                 <li><code>unlimitedStorage</code>: so a large shelf isn't cut off by the browser's default storage quota.</li>
-                <li><code>downloads</code> and <code>downloads.ui</code>: to write backup files to <code>Downloads/Tabhaven/</code>, quietly, without a download notification after every change.</li>
+                <li><code>downloads</code>: to write backup files to <code>Downloads/Tabhaven/</code>.</li>
+                <li><code>downloads.ui</code> (Chrome only): to write those backups quietly, without a download notification after every change.</li>
                 <li><code>alarms</code>: to run the daily backup schedule.</li>
                 <li><code>contextMenus</code>: to add Tabhaven options to the right-click menu.</li>
+                <li><code>favicon</code> (Chrome only): to show each saved site's icon next to its tab on the shelf, from the browser's own icon cache.</li>
               </ul>
+              <p>Firefox has no <code>downloads.ui</code> or <code>favicon</code> permission, so the Firefox version doesn't ask for them.</p>
               <p>None of these are used to send data anywhere. Tabhaven makes no network requests.</p>
             </div>
           </details>
@@ -449,7 +444,7 @@
           <img src="favicon.svg" alt="" width="24" height="24">
           <span>Tabhaven</span>
         </a>
-        <p>Tabhaven — an open-source tab saver.</p>
+        <p>The tab saver that keeps a copy outside your browser. Free and open source.</p>
       </div>
       <nav aria-label="Footer">
         <ul class="footer-links">

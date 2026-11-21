@@ -14,12 +14,13 @@ function isOwnPage(url) {
 function isWorthSaving(tab) {
   const url = tab.url || tab.pendingUrl || '';
   if (!url || isOwnPage(url)) return false;
-  return !/^(chrome|edge|brave):\/\/newtab\/?$|^about:(blank|newtab)$|^chrome-search:/i.test(url);
+  return !/^(chrome|edge|brave):\/\/newtab\/?$|^about:(blank|newtab|home|privatebrowsing)$|^chrome-search:/i.test(url);
 }
 
 // Open (or focus) the shelf in the given window.
 export async function openShelf(windowId) {
-  const existing = await chrome.tabs.query({ url: SHELF_URL + '*', ...(windowId ? { windowId } : {}) });
+  // Filter by hand: Firefox rejects moz-extension:// URLs as tabs.query match patterns.
+  const existing = (await chrome.tabs.query(windowId ? { windowId } : {})).filter((t) => (t.url || '').startsWith(SHELF_URL));
   if (existing.length) {
     await chrome.tabs.update(existing[0].id, { active: true });
     if (windowId) await chrome.windows.update(windowId, { focused: true }).catch(() => {});
@@ -82,8 +83,11 @@ export async function shelve({ scope = 'window', windowId, tabIds } = {}) {
   return { ok: true, count: tabs.length, groups: saved.map((g) => g.id) };
 }
 
+// Chrome can hide the download bubble while backups are written; Firefox cannot, so there the
+// backup waits for 2 quiet minutes to batch changes into fewer download notifications.
+const BACKUP_DELAY = chrome.downloads.setUiOptions ? 0.5 : 2;
 function scheduleBackup() {
-  chrome.alarms.create(BACKUP_SOON, { delayInMinutes: 0.5 });
+  chrome.alarms.create(BACKUP_SOON, { delayInMinutes: BACKUP_DELAY });
 }
 
 async function setup() {
@@ -94,7 +98,12 @@ async function setup() {
     { id: 'shelve-tab', title: 'Save this tab to Tabhaven', contexts: ['page'] },
     { id: 'shelve-window', title: 'Save all tabs in this window to Tabhaven', contexts: ['page'] },
   ];
-  for (const m of menus) chrome.contextMenus.create(m);
+  // Firefox also has a menu on the tab strip ('tab' context); offer the save items there.
+  const tabCtx = Object.values(chrome.contextMenus.ContextType || {}).includes('tab');
+  for (const m of menus) {
+    if (tabCtx && m.contexts[0] === 'page') m.contexts = ['page', 'tab'];
+    chrome.contextMenus.create(m);
+  }
   const periodic = await chrome.alarms.get(BACKUP_PERIODIC);
   if (!periodic) chrome.alarms.create(BACKUP_PERIODIC, { periodInMinutes: 60 });
 }

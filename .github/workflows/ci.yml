@@ -31,8 +31,16 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
       - name: Unit tests (import/export formats)
         run: pnpm test
-      - name: Extension tests (save, crash mid-write, update, backup + restore, 10k tabs)
+      - name: Browsers available
+        run: firefox --version && geckodriver --version | head -1
+      - name: Extension tests (Chromium - save, crash mid-write, update, backup + restore, edits, 10k tabs; Firefox - save, backup, restore)
         run: pnpm test:e2e
+      - name: Build store packages
+        run: node tools/build.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: store-packages
+          path: dist/*.zip
 
   pages:
     needs: test
@@ -43,11 +51,10 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Build site and extension zip
+      - name: Build site
         run: |
           mkdir -p _site
           cp -r docs/. _site/
-          (cd src && zip -r -X ../_site/tabhaven.zip .)
           ls -la _site
       - uses: actions/upload-pages-artifact@v3
         with:

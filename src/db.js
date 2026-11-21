@@ -169,7 +169,9 @@ export async function updateGroup(id, patchFn, { snapshot = 'edit', minor = true
   return mutate({ snapshot, minor }, async (s) => {
     const g = await reqP(s.groups.get(id));
     if (!g) return null;
-    const next = patchFn(structuredClone(g)) || g;
+    // patchFn edits the draft in place (or returns a replacement).
+    const draft = structuredClone(g);
+    const next = patchFn(draft) || draft;
     next.updatedAt = Date.now();
     if (next.tabs.length === 0) await reqP(s.groups.delete(id));
     else await reqP(s.groups.put(next));

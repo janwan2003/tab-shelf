@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Tabhaven: save tabs, never lose them",
   "short_name": "Tabhaven",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Save all your tabs into searchable groups in one click. Automatic backup files and version history so your saved tabs are never lost.",
   "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
   "action": {
